@@ -1,0 +1,112 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+    <ui:composition template="/template.xhtml">
+
+
+        <ui:define name="title">
+            <h:outputText value="#{msg.ListReformeTitle}"></h:outputText>
+        </ui:define>
+
+        <ui:define name="body">
+            <h:form id="ReformeListForm">               
+                <p:growl id="growl" showDetail="true"/>
+
+                <p:ajaxStatus style="display:block;margin-bottom:2em;height:24px;">
+                    <f:facet name="default">
+                        <h:outputText value="" />
+                    </f:facet>
+
+                    <f:facet name="start">
+                        <p:graphicImage value="/resources/images/ajaxloadingbar.gif" />
+                    </f:facet>
+
+                    <f:facet name="complete">
+                        <h:outputText value="" />
+                    </f:facet>
+                </p:ajaxStatus> 
+
+                <p:ajaxStatus onstart="PF('statusDialog').show()" onsuccess="PF('statusDialog').hide()" />
+
+                <p:dialog widgetVar="statusDialog" modal="true" draggable="false" closable="false" resizable="false" showHeader="false">
+                    <p:graphicImage value="/resources/images/ajaxloadingbar.gif" />
+                </p:dialog> 
+
+                <p:dataTable id="datalist" value="#{historiqueReformeController.reformes}" var="item"
+                             selectionMode="single" 
+                             paginator="true"
+                             rowKey="#{item.idReforme}"
+                             rows="10"
+                             rowsPerPageTemplate="10,20,30,40,50"
+                             style="margin-top:1% !important; text-align:left; margin-left:10%; margin-right: 10%;font-weight: bold; font-style: oblique;"
+                             rowIndexVar="index"
+                             emptyMessage="#{msg.Vide}"
+                             widgetVar="reformeTable"
+                             draggableColumns="true"
+                             resizableColumns="true"
+                             >
+
+
+                    <f:facet name="header"> 
+                        <h:outputText value="#{msg.ListReformeTitle}"/>                        
+                    </f:facet> 
+
+                    <p:column style="width: 10% !important;">
+                        <f:facet name="header">
+                            <h:outputText value="#{msg.Numero}"/>
+                        </f:facet>
+                        <h:outputText value="#{index+1}"/>
+                    </p:column>                     
+                    <p:column sortBy="#{item.idVehicule.immatriculation}" filterBy="#{item.idVehicule.immatriculation}">
+                        <f:facet name="header">
+                            <h:outputText value="#{msg.ListReformeTitle_idVehicule}"/>
+                        </f:facet>
+                        <h:outputText value="#{item.idVehicule.immatriculation}(#{item.idVehicule.idModele.nom}#{item.idVehicule.idModele.idMarque.nom})"/>
+                    </p:column>
+                    <p:column>
+                        <f:facet name="header">
+                            <h:outputText value="#{msg.ListReformeTitle_datemisereforme}"/>
+                        </f:facet>
+                        <h:outputText value="#{item.datemisereforme}">
+                            <f:convertDateTime pattern="dd/MM/yyyy" />
+                        </h:outputText>
+                    </p:column>
+                    <p:column >
+                        <f:facet name="header">
+                            <h:outputText value="#{msg.ListReformeTitle_datevente}"/>
+                        </f:facet>
+                        <h:outputText value="#{item.datevente}">
+                            <f:convertDateTime pattern="dd/MM/yyyy" />
+                        </h:outputText>
+                    </p:column>
+                    <p:column sortBy="#{item.montantvente}" filterBy="#{item.montantvente}">
+                        <f:facet name="header">
+                            <h:outputText value="#{msg.ListReformeTitle_montantvente}"/>
+                        </f:facet>
+                        <h:outputText value="#{item.montantvente}"/>
+                    </p:column>
+                    <p:column>
+                        <f:facet name="header">
+                            <h:outputText value="#{msg.ListReformeTitle_vendu}"/>
+                        </f:facet>
+                        <p:selectBooleanCheckbox value="#{item.vendu}" disabled="true"/>
+                    </p:column>
+                    <f:facet name="footer">
+
+                    </f:facet>
+                </p:dataTable>
+                <center>
+                    <p:commandButton id="createButton" icon="ui-icon-print" update=":ReformeImprimerForm,:ReformeImprimerDlg"   value="Imprimer" onclick="#{historiqueReformeController.imprimerReforme()}"  oncomplete="PF('ReformeImprimerDialog').show()" disabled="#{historiqueReformeController.imprimer}" /> 
+                </center> 
+            </h:form>
+            <ui:include src="Imprimer.xhtml"/> 
+
+        </ui:define>
+    </ui:composition>
+
+</html>

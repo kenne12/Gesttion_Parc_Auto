@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+    <ui:composition>
+
+        <p:dialog id="FicheDetenteurCreateDlg" widgetVar="FicheDetenteurCreateDialog" modal="true" resizable="false" appendTo="@(body)" header="FICHE DE DETENTION DE VEHICULES DE : #{personnelController.personnel.nomPrenom}">
+            <h:form id="FicheDetenteurCreateForm">
+                <p:dataGrid rendered="#{personnelController.showFiche}" var="item" value="#{personnelController.attributions}" columns="2"  emptyMessage="La fiche de detention de véhicule de #{personnelController.personnel.nomPrenom} est vide"
+                            rows="12" paginator="true" id="cars"
+                            paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+                            rowsPerPageTemplate="2,4,8">
+
+
+                    <p:panel header="N° d'immatriculation : #{item.idVehicule.immatriculation}" style="text-align:center" rendered="#{personnelController.showFiche}">
+                        <h:panelGrid columns="1" style="width:100%">
+                            <p:graphicImage value="/resources/images/#{item.idVehicule.photo}"  width="450" height="320"/> 
+
+                            <h:outputText value="Marque : #{item.idVehicule.idModele.idMarque.nom} #{item.idVehicule.idModele.nom}" />
+
+                            <h:outputText value="Date d'acquisition : " />
+                            <h:outputText value="#{item.dateattribution}">
+                                <f:convertDateTime pattern="dd/MM/yyyy" />
+                            </h:outputText>
+                            <h:outputText value="Région : #{item.idPersonnel.idStructure.idRegion.nom}"/>
+                            <h:outputText value="District : #{item.idPersonnel.idStructure.idDistrict.nom}"/>
+                            <h:outputText value="Structure : #{item.idPersonnel.idStructure.nom}"/>
+
+                            
+                        </h:panelGrid>
+                    </p:panel>
+
+                </p:dataGrid>
+
+                <p:commandButton   actionListener="#{personnelController.imprimerFiche()}" style="float: right;" icon="ui-icon-check" value="Imprimer" update=":FicheDetentionImprimerForm" oncomplete="PF('FicheDetentionImprimerDialog').show()" />                
+                <p:commandButton    style="float: right; color: red;" icon="ui-icon-close" value="Annuler" onclick="PF('FicheDetenteurCreateDialog').hide()"/>
+            </h:form>
+        </p:dialog>
+
+    </ui:composition>
+</html>

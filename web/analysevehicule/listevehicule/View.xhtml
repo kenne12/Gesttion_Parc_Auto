@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+    <ui:composition>
+
+        <p:dialog id="VehiculeViewDlg" widgetVar="VehiculeViewDialog" modal="true" resizable="false" appendTo="@(body)" header="#{msg.ViewVehiculeTitle}">
+            <h:form id="VehiculeViewForm">
+                <h:panelGrid columns="2" rendered="#{vehiculeController.vehicule != null}" style=" position: relative;  text-align:left; font-weight: bold; font-style: oblique;">                    
+                    <h:panelGroup id="display">
+                        <p:panelGrid columns="2">
+                            <h:outputText value="#{msg.ViewVehiculeLabel_idVehicule}"/>
+                            <h:outputText value="#{vehiculeController.vehicule.idVehicule}" title="#{msg.ViewVehiculeTitle_idVehicule}"/>
+                            <h:outputText value="#{msg.ViewVehiculeLabel_immatriculation}"/>
+                            <h:outputText value="#{vehiculeController.vehicule.immatriculation}" title="#{msg.ViewVehiculeTitle_immatriculation}"/>
+                            <h:outputText value="#{msg.ViewVehiculeLabel_numchassis}"/>
+                            <h:outputText value="#{vehiculeController.vehicule.numchassis}" title="#{msg.ViewVehiculeTitle_numchassis}"/>
+                            <h:outputText value="#{msg.ViewVehiculeLabel_cartegrise}"/>
+                            <h:outputText value="#{vehiculeController.vehicule.cartegrise}" title="#{msg.ViewVehiculeTitle_cartegrise}"/>
+                            <h:outputText value="#{msg.ViewVehiculeLabel_dateacquisition}"/>
+                            <h:outputText value="#{vehiculeController.vehicule.dateacquisition}" title="#{msg.ViewVehiculeTitle_dateacquisition}">
+                                <f:convertDateTime pattern="dd/MM/yyyy" />
+                            </h:outputText>
+                            <h:outputText value="#{msg.ViewVehiculeLabel_numserie}"/>
+                            <h:outputText value="#{vehiculeController.vehicule.numserie}" title="#{msg.ViewVehiculeTitle_numserie}"/>
+                            <h:outputText value="#{msg.ViewVehiculeLabel_puissance}"/>
+                            <h:outputText value="#{vehiculeController.vehicule.puissance}" title="#{msg.ViewVehiculeTitle_puissance}"/>
+                            <h:outputText value="#{msg.ViewVehiculeLabel_coutachatttc}"/>
+                            <h:outputText value="#{vehiculeController.vehicule.coutachatttc}" title="#{msg.ViewVehiculeTitle_coutachatttc}"/>
+                            <h:outputText value="#{msg.ViewVehiculeLabel_nbredeplace}"/>
+                            <h:outputText value="#{vehiculeController.vehicule.nbredeplace}" title="#{msg.ViewVehiculeTitle_nbredeplace}"/>
+                            <h:outputText value="#{msg.ViewVehiculeLabel_nbresinistre}"/>
+                            <h:outputText value="#{vehiculeController.vehicule.nbresinistre}" title="#{msg.ViewVehiculeTitle_nbresinistre}"/>
+                            <h:outputText value="#{msg.ViewVehiculeLabel_nbrereparation}"/>
+                            <h:outputText value="#{vehiculeController.vehicule.nbrereparation}" title="#{msg.ViewVehiculeTitle_nbrereparation}"/>
+                            <h:outputText value="#{msg.ViewVehiculeLabel_nbrerevision}"/>
+                            <h:outputText value="#{vehiculeController.vehicule.nbrerevision}" title="#{msg.ViewVehiculeTitle_nbrerevision}"/>
+                            <h:outputText value="#{msg.ViewVehiculeLabel_etat}"/>
+                            <h:outputText value="#{vehiculeController.vehicule.etat}" title="#{msg.ViewVehiculeTitle_etat}"/>
+                            <h:outputText value="#{msg.ViewVehiculeLabel_idSourcefinancement}"/>
+                            <h:outputText value="#{vehiculeController.vehicule.idSourcefinancement.nom}" title="#{msg.ViewVehiculeTitle_idSourcefinancement}"/>
+                            <h:outputText value="#{msg.ViewVehiculeLabel_idSourceenergie}"/>
+                            <h:outputText value="#{vehiculeController.vehicule.idSourceenergie.nom}" title="#{msg.ViewVehiculeTitle_idSourceenergie}"/>
+                            <h:outputText value="#{msg.ViewVehiculeLabel_idMarque}"/>
+                            <h:outputText value="#{vehiculeController.vehicule.idModele.nom} #{vehiculeController.vehicule.idModele.idMarque.nom}" title="marque"/>
+<!--                            <h:outputText value="#{msg.ViewVehiculeLabel_idModele}"/>
+                            <h:outputText value="#{vehiculeController.vehicule.idModele.nom}" title="#{msg.ViewVehiculeTitle_idModele}"/>-->
+                            <h:outputText value="#{msg.ViewVehiculeLabel_idModeacquisition}"/>
+                            <h:outputText value="#{vehiculeController.vehicule.idModeacquisition.nom}" title="#{msg.ViewVehiculeTitle_idModeacquisition}"/>
+                            <h:outputText value="#{msg.ViewVehiculeLabel_idCategorievehicule}"/>
+                            <h:outputText value="#{vehiculeController.vehicule.idCategorievehicule.nom}" title="#{msg.ViewVehiculeTitle_idCategorievehicule}"/>
+                            <h:outputText value="#{msg.ViewVehiculeLabel_description}"/>
+                            <h:outputText value="#{vehiculeController.vehicule.description}" title="#{msg.ViewVehiculeTitle_description}"/>
+                            
+                        </p:panelGrid>
+                    </h:panelGroup>
+                   <p:graphicImage id="affi_photo" value="/resources/images/#{vehiculeController.vehicule.photo}" 
+                                    height="454" width="350"
+                                    style="border-radius: 10px 10px 10px 10px;"
+                                    />       
+
+                </h:panelGrid>
+                <p:commandButton style="float: right; color: red;" icon="ui-icon-close" value="#{msg.Close}" onclick="VehiculeViewDialog.hide()"/>
+            </h:form>
+        </p:dialog>
+
+    </ui:composition>
+</html>

@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:p="http://primefaces.org/ui">
+    <ui:composition>
+        <script type="text/javascript">
+
+
+            function checkMatching(value) {
+                value = document.getElementById("confirmpassword").value;
+                alert(value);
+            }
+
+        </script>
+        <h:form id="menuForm" style="font-size: 12px;">
+            <p:menubar style="border:none;" styleClass="navbar">
+                <p:menuitem value="#{msg.Accueil}" outcome="/index.xhtml" icon="ui-icon-home"/> 
+                <p:submenu label="#{msg.Parametrage}" >
+                    <p:submenu  label="#{msg.Bloc_administratif}">
+                        <p:menuitem value="#{msg.Pays}" outcome="/pays/List.xhtml" />
+                        <p:menuitem value="#{msg.Region}" outcome="/region/List.xhtml" />
+                        <p:menuitem value="#{msg.District}" outcome="/district/List.xhtml" />
+
+                        <p:menuitem value="#{msg.Departement}" outcome="/departement/List.xhtml" />
+                        <p:menuitem value="#{msg.Arrondissement}" outcome="/arrondissement/List.xhtml" />   
+                    </p:submenu>
+                    <p:submenu label="#{msg.Bloc_sanitaire}" >
+                        <p:menuitem value="#{msg.Typestructure}" outcome="/typestructure/List" />                         
+                        <p:menuitem value="#{msg.Statutstructure}" outcome="/statutstructure/List" />
+                        <p:menuitem value="#{msg.Norme}" outcome="/norme/List.xhtml"/>
+                    </p:submenu>
+                    <p:submenu label="#{msg.Maintenance_vehicule}">
+                        <p:menuitem value="#{msg.Garage}" outcome="/garage/List.xhtml" />
+                        <p:menuitem value="#{msg.Typereparation}" outcome="/typereparation/List" />
+                        <p:menuitem value="#{msg.Sourceenergie}" outcome="/sourceenergie/List.xhtml" />
+                        <p:menuitem value="#{msg.Typesinistre}" outcome="/typesinistre/List" />
+                    </p:submenu>
+                    <p:submenu label="#{msg.Typique_vehicule}">
+                        <p:menuitem value="#{msg.Marque}" outcome="/marque/List.xhtml" />
+                        <p:menuitem value="#{msg.Modele}" outcome="/modele/List.xhtml" />
+                        <p:menuitem value="#{msg.Modeacquisition}" outcome="/modeacquisition/List.xhtml" />
+                        <p:menuitem value="#{msg.Categorie_vehicule}" outcome="/categorievehicule/List.xhtml" />
+                    </p:submenu>
+                    <p:submenu label="#{msg.Activite_perso}">
+                        <p:menuitem value="#{msg.Service}" outcome="/service/List.xhtml" />
+                        <p:menuitem value="#{msg.Fonction}" outcome="/fonction/List.xhtml" />
+                    </p:submenu>
+                    <p:menuitem value="#{msg.Sourcefinancement}" outcome="/sourcefinancement/List.xhtml" />
+                </p:submenu>
+                <p:submenu label="#{msg.Traitement}">
+                    <p:menuitem value="#{msg.Personnel}" outcome="/personnel/List.xhtml" />
+                    <p:menuitem value="#{msg.Structure}" outcome="/structure/List.xhtml" />
+                    <p:submenu label="Gerer Les Vehicules">
+
+                        <p:menuitem value="#{msg.ListDesVehicules}" outcome="/vehicule/List.xhtml" />
+                        <p:menuitem value="#{msg.Attribution_vehicule}" outcome="/attribution/List.xhtml"/>
+                        <p:menuitem value="#{msg.Restitution_vehicule}" outcome="/restitution/List.xhtml"/>
+                        <p:menuitem value="#{msg.Sinistre_vehicule}" outcome="/sinistre/List.xhtml"/>
+                        <p:menuitem value="#{msg.Reparation_vehicule}" outcome="/reparation/List.xhtml"/>
+                        <p:menuitem value="#{msg.Demande_vehicule}" outcome="/demande/List.xhtml"/>
+                        <p:menuitem value="#{msg.Reforme_vehicule}" outcome="/reforme/List.xhtml"/>
+                        <p:menuitem disabled="true" value="#{msg.Mise_en_service_vehicule}" outcome="/#"/>
+
+                    </p:submenu>
+                </p:submenu>
+                <p:submenu label="#{msg.Analyse}">
+                    <p:submenu label="#{msg.Vehicule}">
+                        <p:menuitem value="Liste des Vehicules" outcome="/analysevehicule/listevehicule/List.xhtml"/>
+                        <p:menuitem value="Vehicules Attribues" outcome="/analysevehicule/vehiculeattribues/List.xhtml"/>
+                        <p:menuitem value="Vehicules Restitues" outcome="/analysevehicule/vehiculerestitues/List.xhtml"/>
+                        <p:menuitem value="Analyse des normes" outcome="/analysevehicule/analysenorme/List.xhtml"/>
+                        <p:menuitem value="Historiques des reformes" outcome="/analysevehicule/historiquereforme/List.xhtml"/>                                  
+                        <p:menuitem value="Programmation des reformes" outcome="/analysevehicule/reformeprogrammee/List.xhtml"/> 
+                        <p:menuitem value="Attribution par région" outcome="/analysevehicule/triparregion/List.xhtml"/>
+                        <p:menuitem value="Cycle de vie des vehicules"  outcome="/analysevehicule/cycledevie/List.xhtml"/> 
+                    </p:submenu>
+                </p:submenu>
+                <p:submenu label="#{msg.Aide}"/>
+                <p:menuitem value="Déconnexion" style="margin-left:2%;color: red" actionListener="#{utilisateurController.logout()}"/>
+            </p:menubar>
+        </h:form>
+    </ui:composition>
+</html>

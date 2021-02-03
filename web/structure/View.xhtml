@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:p="http://primefaces.org/ui">
+
+    <ui:composition>
+
+        <p:dialog id="StructureViewDlg" widgetVar="StructureViewDialog" modal="true" resizable="false" appendTo="@(body)" header="#{msg.ViewStructureTitle}">
+            <h:form id="StructureViewForm">
+                <h:panelGroup id="display" rendered="#{structureController.selectedStructure != null}" style="float: left; font-weight: bold; font-style: oblique; width: 100%;">
+                    <p:panelGrid columns="2" >
+
+
+                        <h:outputText value="#{msg.ViewStructureLabel_nom}"/>
+                        <h:outputText value="#{structureController.selectedStructure.nom}" title="#{msg.ViewStructureTitle_nom}"/>
+
+                        <h:outputText value="#{msg.ViewStructureLabel_localite}"/>
+                        <h:outputText value="#{structureController.selectedStructure.localite}" title="#{msg.ViewStructureTitle_localite}"/>
+
+                        <h:outputText value="#{msg.ViewStructureLabel_active}"/>
+                        <p:selectBooleanCheckbox id="active" value="#{structureController.selectedStructure.active}" disabled="true"/>
+
+
+                        <h:outputText value="#{msg.ViewStructureLabel_gpsNord}"/>
+                        <h:outputText value="#{structureController.selectedStructure.gpsNord}" title="#{msg.ViewStructureTitle_gpsNord}"/>
+
+                        <h:outputText value="#{msg.ViewStructureLabel_gpsSud}"/>
+                        <h:outputText value="#{structureController.selectedStructure.gpsSud}" title="#{msg.ViewStructureTitle_gpsSud}"/>
+
+                        <h:outputText value="#{msg.ViewAdresseLabel_tel}"/>
+                        <h:outputText value="#{structureController.selectedStructure.idAdresse.tel}" title="#{msg.ViewAdresseTitle_tel}"/>
+
+                        <h:outputText value="#{msg.ViewAdresseLabel_email}"/>
+                        <h:outputText value="#{structureController.selectedStructure.idAdresse.email}" title="#{msg.ViewAdresseTitle_email}"/>
+
+                        <h:outputText value="#{msg.ViewAdresseLabel_bp}"/>
+                        <h:outputText value="#{structureController.selectedStructure.idAdresse.bp}" title="#{msg.ViewAdresseTitle_bp}"/>
+
+                        <h:outputText value="#{msg.ViewAdresseLabel_fax}"/>
+                        <h:outputText value="#{structureController.structure.idAdresse.fax}" title="#{msg.ViewAdresseTitle_fax}"/>
+
+                        <h:outputText value="#{msg.ViewAdresseLabel_siteweb}"/>
+                        <h:outputText value="#{structureController.selectedStructure.idAdresse.siteweb}" title="#{msg.ViewAdresseTitle_siteweb}"/>
+
+                        <h:outputText value="#{msg.ViewStructureLabel_idTypestructure}"/>
+                        <h:outputText value="#{structureController.selectedStructure.idTypestructure.nomFr}(#{structureController.structure.idTypestructure.codeFr})" title="#{msg.ViewStructureTitle_idTypestructure}"/>
+
+                        <h:outputText value="#{msg.ViewStructureLabel_idStatutstructure}"/>
+                        <h:outputText value="#{structureController.selectedStructure.idStatutstructure.nom}" title="#{msg.ViewStructureTitle_idStatutstructure}"/>
+
+                        <h:outputText value="Région"/>
+                        <h:outputText value="#{structureController.selectedStructure.idRegion.nom}"/> 
+
+                        <h:outputText value="District"/>
+                        <h:outputText value="#{structureController.selectedStructure.idDistrict.nom}"/> 
+
+                        <h:outputText value="#{msg.ViewStructureLabel_idArrondissement}"/>
+                        <h:outputText value="#{structureController.selectedStructure.idArrondissement.nom}" title="#{msg.ViewStructureTitle_idArrondissement}"/>
+
+                    </p:panelGrid>
+                    <p:commandButton style="float: right; color: red;" icon="ui-icon-close" value="#{msg.Close}" onclick="StructureViewDialog.hide()"/>
+                </h:panelGroup>
+            </h:form>
+        </p:dialog>
+
+    </ui:composition>
+</html>

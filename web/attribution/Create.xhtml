@@ -1,0 +1,205 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+    <ui:composition>
+
+        <p:dialog id="AttributionCreateDlg" widgetVar="AttributionCreateDialog" modal="true" resizable="false" appendTo="@(body)" header="#{msg.CreateAttributionTitle}" style="margin-top:0% !important;">
+            <h:form id="AttributionCreateForm">
+                <p:accordionPanel style="text-align:left; font-weight: bold; font-style: oblique;">  
+                    <p:tab title="Personnel">
+                        <p:panelGrid columns="4">   
+                            <p:outputLabel value="#{msg.CreateAttributionLabel_idPersonnel}" for="idPersonnel" />
+                            <p:inputText id="idPersonnel" value="#{attributionController.personnel.nomPrenom}" 
+                                         title="#{msg.CreateVehiculeTitle_idVehicule}" style="font-weight: bold; font-style: oblique; width: 350px">
+                                <!--<p:ajax listener="#{attributionController.personnelSelection()}" update="@this"/>-->
+                            </p:inputText>
+                            <p:commandButton value="..." actionListener="#{attributionController.listPersonnelNonAttribues()}"  oncomplete="PF('PersonnelAttrDliaog').show()" update=":PersonnelAttrForm:datalist"/>  
+                            <p:graphicImage id="photoPersonnelAttr" value="/resources/images/#{attributionController.personnel.photo}" height="190" width="249"/>    
+                        </p:panelGrid>   
+                    </p:tab> 
+                </p:accordionPanel> 
+                <p:accordionPanel style="text-align:left; font-weight: bold; font-style: oblique;">  
+                    <p:tab title="Véhicule"> 
+                        <p:panelGrid columns="4">  
+                            <p:outputLabel value="#{msg.CreateAttributionLabel_idVehicule}" for="idVehicule" />
+                            <p:inputText id="idVehicule" value="#{attributionController.vehicule.immatriculation}" 
+                                         style="font-weight: bold; font-style: oblique; width: 350px">
+                                
+                            </p:inputText>
+                            <p:commandButton value="..." actionListener="#{attributionController.listeVehiculeNonAttribuer()}"  oncomplete="PF('VehiculeNonAttrDliaog').show()" update=":VehiculeNonAttrForm:datalist"/>                
+                            <p:graphicImage id="photoVehiculeAttr" value="/resources/images/#{attributionController.vehicule.photo}" height="190" width="249"/>                                                    
+                        </p:panelGrid>
+                        <center>
+                            <p:panelGrid columns="2" >                        
+                                <p:outputLabel value="#{msg.CreateAttributionLabel_dateattribution}" for="dateattribution" />
+                                <p:calendar id="dateattribution" pattern="dd/MM/yyyy" placeholder="dd/mm/yyyy" size="15" value="#{attributionController.attri.dateattribution}" 
+                                            title="#{msg.EditAttributionTitle_dateattribution}"/>
+
+                            </p:panelGrid>
+                        </center>
+                    </p:tab> 
+                </p:accordionPanel>
+
+                <p:commandButton style="float: right;" icon="ui-icon-check" value="#{msg.Valider}" actionListener="#{attributionController.saveAttribution()}"  update=":AttributionListForm:datalist" oncomplete="handleSubmit(args,'AttributionCreateDialog');" onclick="AttributionCreateDialog.hide()"/>
+                <p:commandButton style="float: right; color: red;" icon="ui-icon-close" value="#{msg.Cancel}" onclick="AttributionCreateDialog.hide()"/>
+
+            </h:form>
+        </p:dialog>
+
+
+        <!--********************************Boite de dialogue vehicule*******************************************-->
+        <p:dialog id="VehiculeNonAttrDlg" widgetVar="VehiculeNonAttrDliaog" modal="true" resizable="false"  appendTo="@(body)"  style="margin-top: 25% !important; text-align:left; margin-left:8%; margin-right: 8%;font-weight: bold; font-style: oblique;">
+            <h:form id="VehiculeNonAttrForm">
+                <p:dataTable id="datalist" value="#{attributionController.listVehiculeNonSelection}" var="item"
+                             selectionMode="single" selection="#{attributionController.vehicule}"
+                             paginator="true" rowKey="#{item.idVehicule}" rows="15"
+                             rowIndexVar="index" emptyMessage="#{msg.Vide}" widgetVar="vehiculeTable"
+                             draggableColumns="true" resizableColumns="true"
+                             >
+
+                    <p:ajax event="rowSelect"   update=":AttributionCreateForm" listener="#{attributionController.activeBouton()}" oncomplete="PF('VehiculeNonAttrDliaog').hide()"/>
+                    <p:ajax event="rowUnselect" update=""/>
+
+                    <f:facet name="header"> 
+                        <h:outputText value="#{msg.ListVehiculeNonAttribuer}"/>
+                    </f:facet> 
+
+                    <p:column style="width: 5% !important; color: black; background-color: beige;">
+                        <f:facet name="header">
+                            <h:outputText value="#{msg.Numero}"/>
+                        </f:facet>
+                        <h:outputText value="#{index+1}"/>
+                    </p:column>
+                    <p:column sortBy="#{item.immatriculation}" filterBy="#{item.immatriculation}">
+                        <f:facet name="header">
+                            <h:outputText value="#{msg.ListVehiculeTitle_immatriculation}"/>
+                        </f:facet>
+                        <h:outputText value="#{item.immatriculation}"/>
+                    </p:column>                    
+                    <p:column sortBy="#{item.idModele.nom}" filterBy="#{item.idModele.nom}">
+                        <f:facet name="header">
+                            <h:outputText value="#{msg.Marque}"/>
+                        </f:facet>
+                        <h:outputText value="#{item.idModele.nom} #{item.idModele.idMarque.nom}"/>
+                    </p:column>
+                    <p:column sortBy="#{item.idCategorievehicule.nom}" filterBy="#{item.idCategorievehicule.nom}">
+                        <f:facet name="header">
+                            <h:outputText value="#{msg.Categorie_vehicule}"/>
+                        </f:facet>
+                        <h:outputText value="#{item.idCategorievehicule.nom}"/>
+                    </p:column>                    
+                    <p:column sortBy="#{item.dateacquisition}" filterBy="#{item.dateacquisition}">
+                        <f:facet name="header">
+                            <h:outputText value="#{msg.ListVehiculeTitle_dateacquisition}"/>
+                        </f:facet>
+                        <h:outputText value="#{item.dateacquisition}">
+                            <f:convertDateTime pattern="dd/MM/yyyy" />
+                        </h:outputText>
+                    </p:column>
+                    <p:column sortBy="#{item.coutachatttc}" filterBy="#{item.coutachatttc}">
+                        <f:facet name="header">
+                            <h:outputText value="#{msg.ListVehiculeTitle_coutachatttc}"/>
+                        </f:facet>
+                        <h:outputText value="#{item.coutachatttc}"/>
+                    </p:column>
+                    <p:column filterBy="#{item.etat}" filterOptions="#" >
+                        <f:facet name="header">
+                            <h:outputText value="#{msg.ListVehiculeTitle_etat}"/>
+                        </f:facet>
+                        <h:outputText value="#{item.etat}"/>
+                    </p:column>
+                    
+                    
+                </p:dataTable>
+
+            </h:form>
+        </p:dialog>
+
+        <!--********************************Boite de dialogue personnel*******************************************-->
+        <p:dialog id="PersonnelAttrDlg" widgetVar="PersonnelAttrDliaog" modal="true" resizable="false"  appendTo="@(body)"  style="margin-top:25% !important; text-align:left; margin-left:8%; margin-right: 8%;font-weight: bold; font-style: oblique;">
+            <h:form id="PersonnelAttrForm">                
+                <p:dataTable id="datalist" value="#{attributionController.listPersonnel}" var="item"
+                             selectionMode="single" selection="#{attributionController.personnel}"
+                             paginator="true"
+                             rowKey="#{item.idPersonnel}"
+                             rows="5"
+                             rowsPerPageTemplate="10,20,30,40,50"
+                             rowIndexVar="index"
+                             emptyMessage="#{msg.Vide}"
+                             widgetVar="personnelTable"
+                             draggableColumns="true"
+                             resizableColumns="true"
+                             >
+
+                    <p:ajax event="rowSelect"   update=":AttributionCreateForm" listener="#{attributionController.activeBouton()}" oncomplete="PF('PersonnelAttrDliaog').hide()"/>
+                    <p:ajax event="rowUnselect" update=""/>
+
+                    <f:facet name="header"> 
+                        <h:outputText value="#{msg.ListPersonnelTitle}"/>
+                    </f:facet> 
+
+                    <p:column style="width: 5% !important; color: black; background-color: beige;">
+                        <f:facet name="header">
+                            <h:outputText value="#{msg.Numero}"/>
+                        </f:facet>
+                        <h:outputText value="#{index+1}"/>
+                    </p:column>
+
+                    <p:column style="width: 20% ;" sortBy="#{item.nomPrenom}" filterBy="#{item.nomPrenom}">
+                        <f:facet name="header">
+                            <h:outputText value="#{msg.ListPersonnelTitle_nomPrenom}"/>
+                        </f:facet>
+                        <h:outputText value="#{item.nomPrenom}"/>
+                    </p:column>
+                    <p:column sortBy="#{item.matricule}" filterBy="#{item.matricule}">
+                        <f:facet name="header">
+                            <h:outputText value="#{msg.ListPersonnelTitle_matricule}"/>
+                        </f:facet>
+                        <h:outputText value="#{item.matricule}"/>
+                    </p:column>
+                    <p:column sortBy="#{item.cni}" filterBy="#{item.cni}">
+                        <f:facet name="header">
+                            <h:outputText value="#{msg.ListPersonnelTitle_cni}"/>
+                        </f:facet>
+                        <h:outputText value="#{item.cni}"/>
+                    </p:column>
+                    <p:column sortBy="#{item.sexe}" filterBy="#{item.sexe}">
+                        <f:facet name="header">
+                            <h:outputText value="#{msg.ListPersonnelTitle_sexe}"/>
+                        </f:facet>
+                        <h:outputText value="#{item.sexe}"/>
+                    </p:column>
+                    <p:column>
+                        <f:facet name="header">
+                            <h:outputText value="#{msg.ListPersonnelTitle_dateNaissance}"/>
+                        </f:facet>
+                        <h:outputText value="#{item.dateNaissance}">
+                            <f:convertDateTime pattern="dd/MM/yyyy" />
+                        </h:outputText>
+                    </p:column>
+                    <p:column sortBy="#{item.lieuNaissance}" filterBy="#{item.lieuNaissance}">
+                        <f:facet name="header">
+                            <h:outputText value="#{msg.ListPersonnelTitle_lieuNaissance}"/>
+                        </f:facet>
+                        <h:outputText value="#{item.lieuNaissance}"/>
+                    </p:column>
+                    <p:column>
+                        <f:facet name="header">
+                            <h:outputText value="#{msg.ListPersonnelTitle_dateRecrutement}"/>
+                        </f:facet>
+                        <h:outputText value="#{item.dateRecrutement}">
+                            <f:convertDateTime pattern="dd/MM/yyyy" />
+                        </h:outputText>
+                    </p:column>
+                    
+                </p:dataTable>
+            </h:form>
+        </p:dialog>
+
+    </ui:composition>
+</html>

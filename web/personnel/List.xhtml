@@ -1,0 +1,118 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+    <ui:composition template="/template.xhtml">
+
+
+        <ui:define name="title">
+            <h:outputText value="#{msg.ListPersonnelTitle}"></h:outputText>
+        </ui:define>
+
+        <ui:define name="body">
+            <h:form id="PersonnelListForm">
+                <p:messages id="msgErreur" closable="true"/>
+                <p:dataTable id="datalist" value="#{personnelController.listPersonnel}" var="item"
+                             selectionMode="single" selection="#{personnelController.personnel}"
+                             paginator="true"
+                             rowKey="#{item.idPersonnel}"
+                             rows="13"
+                             rowsPerPageTemplate="10,20,30,40,50"
+                             style="margin-top:1% !important; text-align:left; margin-left:1%; margin-right: 1%;font-weight: bold; font-style: oblique;"
+                             rowIndexVar="index"
+                             emptyMessage="#{msg.Vide}"
+                             widgetVar="personnelTable"
+                             draggableColumns="true"
+                             resizableColumns="true"
+                             >
+
+                    <p:ajax event="rowSelect"   update=":PersonnelListForm:createButton :PersonnelListForm:viewButton :PersonnelListForm:editButton :PersonnelListForm:deleteButton :PersonnelListForm:ficheDetenteur" listener="#{personnelController.activeBouton()}"/>
+                    <p:ajax event="rowUnselect" update=":PersonnelListForm:createButton :PersonnelListForm:viewButton :PersonnelListForm:editButton :PersonnelListForm:deleteButton :PersonnelListForm:ficheDetenteur"/>
+                    <p:ajax event="colResize"  listener="#{personnelController.onResize}" />  
+
+
+                    <f:facet name="header"> 
+                        <h:outputText value="#{msg.ListPersonnelTitle}"/>
+                    </f:facet> 
+
+                    <p:column style="width: 5% !important;">
+                        <f:facet name="header">
+                            <h:outputText value="#{msg.Numero}"/>
+                        </f:facet>
+                        <h:outputText value="#{index+1}"/>
+                    </p:column>
+
+                    <p:column style="width: 20% ;" sortBy="#{item.nomPrenom}" filterBy="#{item.nomPrenom}">
+                        <f:facet name="header">
+                            <h:outputText value="#{msg.ListPersonnelTitle_nomPrenom}"/>
+                        </f:facet>
+                        <h:outputText value="#{item.nomPrenom}"/>
+                    </p:column>
+                    <p:column sortBy="#{item.matricule}" filterBy="#{item.matricule}">
+                        <f:facet name="header">
+                            <h:outputText value="#{msg.ListPersonnelTitle_matricule}"/>
+                        </f:facet>
+                        <h:outputText value="#{item.matricule}"/>
+                    </p:column>
+                    <p:column sortBy="#{item.cni}" filterBy="#{item.cni}">
+                        <f:facet name="header">
+                            <h:outputText value="#{msg.ListPersonnelTitle_cni}"/>
+                        </f:facet>
+                        <h:outputText value="#{item.cni}"/>
+                    </p:column>
+                    <p:column sortBy="#{item.sexe}" filterBy="#{item.sexe}">
+                        <f:facet name="header">
+                            <h:outputText value="#{msg.ListPersonnelTitle_sexe}"/>
+                        </f:facet>
+                        <h:outputText value="#{item.sexe}"/>
+                    </p:column>
+                    <p:column>
+                        <f:facet name="header">
+                            <h:outputText value="#{msg.ListPersonnelTitle_dateNaissance}"/>
+                        </f:facet>
+                        <h:outputText value="#{item.dateNaissance}">
+                            <f:convertDateTime pattern="dd/MM/yyyy" />
+                        </h:outputText>
+                    </p:column>
+                    <p:column sortBy="#{item.lieuNaissance}" filterBy="#{item.lieuNaissance}">
+                        <f:facet name="header">
+                            <h:outputText value="#{msg.ListPersonnelTitle_lieuNaissance}"/>
+                        </f:facet>
+                        <h:outputText value="#{item.lieuNaissance}"/>
+                    </p:column>
+
+                    <p:column>
+                        <f:facet name="header">
+                            <h:outputText value="#{msg.ListPersonnelTitle_dateRecrutement}"/>
+                        </f:facet>
+                        <h:outputText value="#{item.dateRecrutement}">
+                            <f:convertDateTime pattern="dd/MM/yyyy" />
+                        </h:outputText>
+                    </p:column>
+
+                    <br></br>
+
+                </p:dataTable>
+                <center>
+                    <p:commandButton id="createButton" icon="ui-icon-plus"   value="#{msg.Create}" actionListener="#{personnelController.prepareCreate}" update=":PersonnelCreateForm" oncomplete="PF('PersonnelCreateDialog').show()"/>
+                    <p:commandButton id="viewButton"   icon="ui-icon-search" value="#{msg.View}" update=":PersonnelViewForm" oncomplete="PF('PersonnelViewDialog').show()" disabled="#{personnelController.bouton}"/>
+                    <p:commandButton id="editButton"   icon="ui-icon-pencil" value="#{msg.Edit}" actionListener="#{personnelController.prepareEdit()}" update=":PersonnelEditForm" oncomplete="PF('PersonnelEditDialog').show()" disabled="#{personnelController.bouton}"/>
+                    <p:commandButton id="deleteButton" icon="ui-icon-trash"  value="#{msg.Delete}" actionListener="#{personnelController.prepareDelete()}" update=":PersonnelDeleteForm" oncomplete="PF('PersonnelDeleteDialog').show()" disabled="#{personnelController.bouton}"/>
+                    <p:commandButton id="ficheDetenteur"  value="Fiche de détenteur" actionListener="#{personnelController.prepareFiche()}" update=":FicheDetenteurCreateForm,:FicheDetenteurCreateDlg" oncomplete="PF('FicheDetenteurCreateDialog').show()" disabled="#{personnelController.bouton}"/>  
+                </center>
+            </h:form>
+
+            <ui:include src="Create.xhtml"/>
+            <ui:include src="Edit.xhtml"/>
+            <ui:include src="View.xhtml"/>
+            <ui:include src="Delete.xhtml"/>
+            <ui:include src="FicheDetenteur.xhtml"/>
+            <ui:include src="Imprimer.xhtml"/>
+        </ui:define>
+    </ui:composition>
+
+</html>

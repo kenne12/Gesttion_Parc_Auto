@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
+
+    <ui:composition>
+
+        <p:dialog id="DistrictEditDlg" widgetVar="DistrictEditDialog" modal="true" resizable="false" appendTo="@(body)" header="#{msg.EditDistrictTitle}" closeOnEscape="true">
+
+            <h:form id="DistrictEditForm">
+
+                
+                <p:panelGrid  style="width: 250px" columns="2" rendered="#{districtController.selectedDistrict != null}">
+
+                    <p:outputLabel value="#{msg.EditDistrictLabel_nom}" for="nom" />
+                    <p:inputText id="nom" value="#{districtController.selectedDistrict.nom}" style="width: 75%" title="Nom du districy" size="255" maxlength="255"/>
+                    
+                    <p:outputLabel value="Région" for="region" />                        
+                    <p:selectOneMenu id="region" value="#{districtController.region}" required="true" requiredMessage="Région requise" converter="regionConverter" >                                                                            
+                        <f:selectItems value="#{districtController.regions}" var="r" itemLabel="#{r.nom}" itemValue="#{r}"/>                        
+                    </p:selectOneMenu> 
+                    
+                    </p:panelGrid>
+                    <p:commandButton actionListener="#{districtController.editDistrict()}" value="#{msg.Save}" update=":DistrictListForm:datalist" oncomplete="PF('DistrictEditDialog').hide()"/>
+                    <p:commandButton value="#{msg.Cancel}" onclick="DistrictEditDialog.hide()"/>
+                
+            </h:form>
+
+        </p:dialog>
+
+    </ui:composition>
+
+</html>

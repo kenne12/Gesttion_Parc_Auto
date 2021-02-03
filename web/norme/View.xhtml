@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:p="http://primefaces.org/ui">
+
+    <ui:composition>
+
+        <p:dialog id="NormeViewDlg" widgetVar="NormeViewDialog" modal="true" resizable="false" appendTo="@(body)" header="#{msg.ViewNormeTitle}">
+            <h:form id="NormeViewForm">
+                <h:panelGroup id="display">
+                    <p:panelGrid columns="2" rendered="#{normeController.selectedNorme != null}">
+                        
+                        <h:outputText value="#{msg.ViewNormeLabel_idTypestructure}"/>
+                        <h:outputText value="#{normeController.selectedNorme.idTypestructure.nomFr}(#{normeController.norme.idTypestructure.codeFr})" title="#{msg.ViewNormeTitle_idTypestructure}"/> 
+                        
+                        <h:outputText value="#{msg.ViewNormeLabel_idCategorievehicule}"/>
+                        <h:outputText value="#{normeController.selectedNorme.idCategorievehicule.nom}" title="#{msg.ViewNormeTitle_idCategorievehicule}"/> 
+                      
+                        <h:outputText value="#{msg.ViewNormeLabel_min}"/>
+                        <h:outputText value="#{normeController.selectedNorme.minimum}" title="#{msg.ViewNormeTitle_min}"/>
+                        <h:outputText value="#{msg.ViewNormeLabel_max}"/>
+                        <h:outputText value="#{normeController.selectedNorme.maximum}" title="#{msg.ViewNormeTitle_max}"/>
+                        
+                        
+                    </p:panelGrid>
+                    <p:commandButton value="#{msg.Close}" onclick="NormeViewDialog.hide()"/>
+                </h:panelGroup>
+            </h:form>
+        </p:dialog>
+
+    </ui:composition>
+</html>

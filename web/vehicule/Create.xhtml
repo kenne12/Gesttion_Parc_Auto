@@ -1,0 +1,174 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+    <ui:composition>
+
+        <p:dialog id="VehiculeCreateDlg" widgetVar="VehiculeCreateDialog" modal="true" resizable="false" appendTo="@(body)" header="#{msg.CreateVehiculeTitle}">
+            <h:form id="VehiculeCreateForm" enctype="multipart/form-data">
+                <h:panelGrid columns="2" style=" position: relative;  text-align:left; font-weight: bold; font-style: oblique;"> 
+                    <h:panelGroup>
+                        <p:panelGrid id="display" columns="2" rendered="true">
+                            
+                            <p:outputLabel value="#{msg.CreateVehiculeLabel_immatriculation}" for="immatriculation" />
+                            <p:inputText id="immatriculation" value="#{vehiculeController.vehicule.immatriculation}" 
+                                         title="#{msg.CreateVehiculeTitle_immatriculation}" required="true" 
+                                         requiredMessage="Champ Immatriculation vide" style="font-weight: bold; font-style: oblique; width: 50%"/>
+                            
+                            <p:outputLabel value="#{msg.CreateVehiculeLabel_numchassis}" for="numchassis" />                            
+                            <p:inputText id="numchassis" value="#{vehiculeController.vehicule.numchassis}" 
+                                         title="#{msg.CreateVehiculeTitle_numchassis}" required="true" 
+                                         requiredMessage="Champ N° Chassis vide" style="font-weight: bold; font-style: oblique; width: 50%"/>
+                            
+                            <p:outputLabel value="#{msg.CreateVehiculeLabel_cartegrise}" for="cartegrise" />               
+                            <p:inputText id="cartegrise" value="#{vehiculeController.vehicule.cartegrise}" 
+                                         title="#{msg.CreateVehiculeTitle_cartegrise}"  
+                                          style="font-weight: bold; font-style: oblique; width: 50%"/>
+                            
+                            <p:outputLabel value="#{msg.CreateVehiculeLabel_numserie}" for="numserie" />                           
+                            <p:inputText id="numserie" value="#{vehiculeController.vehicule.numserie}" 
+                                         title="#{msg.CreateVehiculeTitle_numserie}"  
+                                          style="font-weight: bold; font-style: oblique; width: 50%"/>
+                           
+                            <p:outputLabel value="#{msg.CreateVehiculeLabel_puissance}" for="puissance" />
+                            <p:inputText id="puissance" value="#{vehiculeController.vehicule.puissance}" 
+                                         title="#{msg.CreateVehiculeTitle_puissance}" style="font-weight: bold; font-style: oblique; width: 50%"/>
+                            
+                            
+                            <p:outputLabel value="Durée de Vie " for="duree" />
+                            <p:inputText id="duree" value="#{vehiculeController.vehicule.dureevie}" 
+                                          style="font-weight: bold; font-style: oblique; width: 50%"/> 
+                           
+                            <p:outputLabel value="#{msg.CreateVehiculeLabel_coutachatttc}" for="coutachatttc" />
+                            <p:inputText id="coutachatttc" value="#{vehiculeController.vehicule.coutachatttc}" 
+                                         title="#{msg.CreateVehiculeTitle_coutachatttc}" style="font-weight: bold; font-style: oblique; width: 50%"/>
+                            
+                            <p:outputLabel value="#{msg.CreateVehiculeLabel_nbredeplace}" for="nbredeplace" />
+                            <p:inputText id="nbredeplace" value="#{vehiculeController.vehicule.nbredeplace}"
+                                         title="#{msg.CreateVehiculeTitle_nbredeplace}" style="font-weight: bold; font-style: oblique; width: 50%"/>
+                            
+                            <p:outputLabel value="#{msg.CreateVehiculeLabel_nbresinistre}" for="nbresinistre" />
+                            <p:inputText id="nbresinistre" value="#{vehiculeController.vehicule.nbresinistre}" disabled="true"
+                                         title="#{msg.CreateVehiculeTitle_nbresinistre}" style="font-weight: bold; font-style: oblique; width: 50%"/>
+                            
+                            <p:outputLabel value="#{msg.CreateVehiculeLabel_nbrereparation}" for="nbrereparation" />
+                            <p:inputText id="nbrereparation" value="#{vehiculeController.vehicule.nbrereparation}" disabled="true"
+                                         title="#{msg.CreateVehiculeTitle_nbrereparation}" style="font-weight: bold; font-style: oblique; width: 50%" />
+                            
+                            <p:outputLabel value="#{msg.CreateVehiculeLabel_nbrerevision}" for="nbrerevision" />
+                            <p:inputText id="nbrerevision" value="#{vehiculeController.vehicule.nbrerevision}" disabled="true"
+                                         title="#{msg.CreateVehiculeTitle_nbrerevision}" style="font-weight: bold; font-style: oblique; width: 50%" />
+                            
+                            <p:outputLabel value="#{msg.CreateVehiculeLabel_dateacquisition}" for="dateacquisition" />
+                            <p:calendar id="dateacquisition" locale="fr" pattern="dd/MM/yyyy" value="#{vehiculeController.vehicule.dateacquisition}" 
+                                        title="#{msg.EditVehiculeTitle_dateacquisition}" maxdate="#{vehiculeController.date}" navigator="true" effect="fold" styleClass="custom"
+                                        required="true" requiredMessage="Champ date d'acquisition vide" size="5" placeholder="dd/mm/yyyy"/>
+                            <p:outputLabel value="#{msg.CreateVehiculeTitle_etat}" for="etat" />
+                            <p:selectOneMenu id="etat" value="#{vehiculeController.vehicule.etat}" 
+                                             required="true" requiredMessage="Etat du véhicule non selectionné" style="font-weight: bold; font-style: oblique; width: 85%">
+                                <f:selectItem itemLabel="#{msg.Faire_choix}" itemValue=""/>
+                                <f:selectItem itemLabel="#{msg.Etat_reforme}" itemValue="#{msg.Etat_reforme}"/>
+                                <f:selectItem itemLabel="#{msg.Etat_fonctionnel}" itemValue="#{msg.Etat_fonctionnel}"/>
+                                <f:selectItem itemLabel="#{msg.Etat_en_arret}" itemValue="#{msg.Etat_en_arret}"/>
+                            </p:selectOneMenu>
+                            
+                            <p:outputLabel value="#{msg.CreateVehiculeLabel_idMarque}" for="idMarque" />
+                            <p:selectOneMenu id="idMarque" value="#{vehiculeController.marque.idMarque}" required="true" 
+                                             requiredMessage="Marque non selectionnée" style="font-weight: bold; font-style: oblique; width: 85%">
+                                <f:selectItem itemLabel="#{msg.Faire_choix}" itemValue=""/>
+                                <f:selectItems value="#{vehiculeController.listMarque}" 
+                                               var="mq" 
+                                               itemLabel="#{mq.nom}" 
+                                               itemValue="#{mq.idMarque}"/>
+                                <p:ajax  listener="#{vehiculeController.filtreModele()}" update="idModele" />
+                            </p:selectOneMenu>
+                            
+                            <p:outputLabel value="#{msg.CreateVehiculeLabel_idModele}" for="idModele" />
+                            <p:selectOneMenu id="idModele" value="#{vehiculeController.modele.idModele}" required="true" 
+                                             requiredMessage="Modèle non selectionné" disabled="#{vehiculeController.selectModel}" style="font-weight: bold; font-style: oblique; width: 85%">
+                                <f:selectItem itemLabel="#{msg.Faire_choix}" itemValue=""/>
+                                <f:selectItems value="#{vehiculeController.listModele}"
+                                               var="m"
+                                               itemLabel="#{m.nom}"
+                                               itemValue="#{m.idModele}"/>
+                            </p:selectOneMenu>
+                            <p:outputLabel value="#{msg.CreateVehiculeLabel_idSourceenergie}" for="idSourceenergie" />
+                            <p:selectOneMenu id="idSourceenergie" value="#{vehiculeController.sourceenergie.idSourceenergie}" required="true" 
+                                             requiredMessage="Source d'énergie non selectionné" style="font-weight: bold; font-style: oblique; width: 85%">
+                                <f:selectItem itemLabel="#{msg.Faire_choix}" itemValue=""/>
+                                <f:selectItems value="#{vehiculeController.listSourceenergie}"
+                                               var="se"
+                                               itemLabel="#{se.nom}"
+                                               itemValue="#{se.idSourceenergie}"/>
+                            </p:selectOneMenu>                            
+
+                        </p:panelGrid>
+                    </h:panelGroup>
+                    <h:panelGroup style="float: left; font-weight: bold; font-style: oblique; width: 100%">
+                        <p:panelGrid id="display1" columns="2" rendered="true">
+                            <p:outputLabel value="#{msg.CreateVehiculeLabel_idCategorievehicule}" for="idCategorievehicule" />
+                            <p:selectOneMenu id="idCategorievehicule" value="#{vehiculeController.categorievehicule.idCategorievehicule}" required="true" 
+                                             requiredMessage="Catégorie non selectionnée" style="font-weight: bold; font-style: oblique; width: 100%;">
+                                <f:selectItem itemLabel="#{msg.Faire_choix}" itemValue=""/>
+                                <f:selectItems value="#{vehiculeController.listCategorievehicule}"
+                                               var="cat"
+                                               itemLabel="#{cat.nom}"
+                                               itemValue="#{cat.idCategorievehicule}"/>
+                            </p:selectOneMenu>
+                            <p:outputLabel value="#{msg.CreateVehiculeLabel_idSourcefinancement}" for="idSourcefinancement" />
+                            <p:selectOneMenu id="idSourcefinancement" value="#{vehiculeController.sourcefinancement.idSourcefinancement}" required="true" 
+                                             requiredMessage="Source de financement non selectionné" style="font-weight: bold; font-style: oblique; width: 100%;">
+                                <f:selectItem itemLabel="#{msg.Faire_choix}" itemValue=""/>
+                                <f:selectItems value="#{vehiculeController.listSourcefinancement}"
+                                               var="sf"
+                                               itemLabel="#{sf.nom}"
+                                               itemValue="#{sf.idSourcefinancement}"/>
+                            </p:selectOneMenu>
+                            <p:outputLabel value="#{msg.CreateVehiculeLabel_idModeacquisition}" for="idModeacquisition" />
+                            <p:selectOneMenu id="idModeacquisition" value="#{vehiculeController.modeacquisition.idModeacquisition}" required="true" 
+                                             requiredMessage="Mode d'acquisition non selectionné" style="font-weight: bold; font-style: oblique; width:100%;">
+                                <f:selectItem itemLabel="#{msg.Faire_choix}" itemValue=""/>
+                                <f:selectItems value="#{vehiculeController.listModeacquisition}"
+                                               var="ma"
+                                               itemLabel="#{ma.nom}"
+                                               itemValue="#{ma.idModeacquisition}"/>
+                            </p:selectOneMenu>
+                            <p:outputLabel value="#{msg.CreateVehiculeLabel_description}" for="description" />
+                            <p:inputTextarea id="description" value="#{vehiculeController.vehicule.description}" 
+                                             title="#{msg.CreateVehiculeTitle_description}" cols="25"
+                                             style="font-weight: bold; font-style: oblique; width: 95%"/>
+                        </p:panelGrid> 
+                        
+                        <h:panelGrid columns="1" style="font-weight: bold; font-style: oblique; width: 100%"> 
+                            <p:fileUpload id="photo" fileUploadListener="#{vehiculeController.handleFileUpload}"  
+                                          label="#{msg.Inserer_photo}"
+                                          uploadLabel="Télécharger"
+                                          cancelLabel="Annuler"
+                                          mode="advanced"   
+                                          update="affi_photo"  
+                                          sizeLimit="10000000"   
+                                          allowTypes="/(\.|\/)(gif|jpe?g|png)$/"
+                                          auto="false"
+                                          style="text-align:left; font-weight: bold; font-style: oblique;"
+                                          />
+                        </h:panelGrid>                      
+
+                        <p:graphicImage id="affi_photo" value="/resources/images/#{vehiculeController.photo}" 
+                                        height="270" width="400"
+                                        style="border-radius: 10px 10px 10px 10px; border: 5px;font-weight: bold; font-style: oblique;"
+                                        />
+                    </h:panelGroup> 
+                </h:panelGrid>                  
+                *indique que le champs est obligatoire.
+                <p:commandButton ajax="false"  actionListener="#{vehiculeController.saveVehicule()}" style="float: right;" icon="ui-icon-check" value="#{msg.Valider}" update="display,display1" oncomplete="handleSubmit(args,'VehiculeCreateDialog');"/>
+                <p:commandButton style="float: right; color: red;" icon="ui-icon-close" value="#{msg.Cancel}" onclick="VehiculeCreateDialog.hide()"/>
+
+            </h:form>
+        </p:dialog>
+
+    </ui:composition>
+</html>

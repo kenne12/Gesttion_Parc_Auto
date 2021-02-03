@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+    <ui:composition>
+
+        <p:dialog id="NormeEditDlg" widgetVar="NormeEditDialog" modal="true" resizable="false" appendTo="@(body)" header="#{msg.EditNormeTitle}">
+            <h:form id="NormeEditForm">
+                <h:panelGroup id="display">
+                    <p:panelGrid columns="2" rendered="#{normeController.selectedNorme != null}">
+                        <p:outputLabel value="#{msg.EditNormeLabel_min}" for="min" />
+                        <p:inputText id="min" value="#{normeController.selectedNorme.minimum}" title="#{msg.EditNormeTitle_min}" />
+                        <p:outputLabel value="#{msg.EditNormeLabel_max}" for="max" />
+                        <p:inputText id="max" value="#{normeController.selectedNorme.maximum}" title="#{msg.EditNormeTitle_max}" />
+                        <p:outputLabel value="#{msg.EditNormeLabel_idTypestructure}" for="idTypestructure" />
+                        <p:selectOneMenu id="idTypestructure" value="#{normeController.selectedNorme.idTypestructure}" converter="typestructureConverter" >
+                            
+                            <f:selectItems value="#{typestructureController.listTypestructure}"
+                                           var="ts"
+                                           itemLabel="#{ts.nomFr}"
+                                           itemValue="#{ts}"/>
+                        </p:selectOneMenu>
+                        <p:outputLabel value="#{msg.EditNormeLabel_idCategorievehicule}" for="idCategorievehicule" />
+                        <p:selectOneMenu id="idCategorievehicule" value="#{normeController.selectedNorme.idCategorievehicule}" converter="categorievehiculeConverter">
+                            
+                            <f:selectItems value="#{categorievehiculeController.listCategorievehicule}"
+                                           var="cat"
+                                           itemLabel="#{cat.nom}"
+                                           itemValue="#{cat}"/>
+                        </p:selectOneMenu>
+                    </p:panelGrid>
+                    <p:commandButton actionListener="#{normeController.editNorme()}" style="float: right;" icon="ui-icon-check" value="#{msg.Valider}" update="display,:NormeListForm:datalist" oncomplete="handleSubmit(args, 'NormeEditDialog');"/>
+                    <p:commandButton style="float: right; color: red;" icon="ui-icon-close" value="#{msg.Cancel}"  onclick="NormeEditDialog.hide()"/>
+                </h:panelGroup>
+            </h:form>
+        </p:dialog>
+
+    </ui:composition>
+</html>

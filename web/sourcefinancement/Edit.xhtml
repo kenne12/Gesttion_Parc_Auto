@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:p="http://primefaces.org/ui">
+
+    <ui:composition>
+
+        <p:dialog id="SourcefinancementEditDlg" widgetVar="SourcefinancementEditDialog" modal="true" resizable="false" appendTo="@(body)" header="#{msg.EditSourcefinancementTitle}">
+            <h:form id="SourcefinancementEditForm">
+                <h:panelGroup id="display">
+                    <p:panelGrid columns="2" rendered="#{sourcefinancementController.sourcefinancement != null}">
+                        <p:outputLabel value="#{msg.EditSourcefinancementLabel_nom}" for="nom" />
+                        <p:inputText id="nom" value="#{sourcefinancementController.sourcefinancement.nom}" title="#{msg.EditSourcefinancementTitle_nom}" />
+                    </p:panelGrid>
+                    <p:commandButton actionListener="#{sourcefinancementController.editSourcefinancement()}" style="float: right;" icon="ui-icon-check" value="#{msg.Valider}" update="display,:SourcefinancementListForm:datalist" oncomplete="handleSubmit(args, 'SourcefinancementEditDialog');"/>
+                    <p:commandButton style="float: right; color: red;" icon="ui-icon-close" value="#{msg.Cancel}" onclick="SourcefinancementEditDialog.hide()"/>
+                    
+                </h:panelGroup>
+            </h:form>
+        </p:dialog>
+
+    </ui:composition>
+</html>

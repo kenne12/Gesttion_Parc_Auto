@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+    <ui:composition>
+
+        <p:dialog id="ReparationCreateDlg" widgetVar="ReparationCreateDialog" modal="true" resizable="false" appendTo="@(body)" header="#{msg.CreateReparationTitle}">
+            <h:form id="ReparationCreateForm">
+                <h:panelGroup id="display">
+                    <p:panelGrid columns="2" rendered="#{reparationController.reparation != null}">
+                        <p:outputLabel value="#{msg.CreateReparationLabel_datereparation}" for="datereparation" />
+                        <p:calendar id="datereparation" pattern="MM/dd/yyyy" value="#{reparationController.reparation.datereparation}" title="#{msg.EditReparationTitle_datereparation}" />
+                        <p:outputLabel value="#{msg.CreateReparationLabel_coutreparation}" for="coutreparation" />
+                        <p:inputText id="coutreparation" value="#{reparationController.reparation.coutreparation}" title="#{msg.CreateReparationTitle_coutreparation}" />
+                        <p:outputLabel value="#{msg.CreateReparationLabel_immobilisation}" for="immobilisation" />
+                        <p:inputText id="immobilisation" value="#{reparationController.reparation.immobilisation}" title="#{msg.CreateReparationTitle_immobilisation}" />
+                        <p:outputLabel value="#{msg.CreateReparationLabel_datedebut}" for="datedebut" />
+                        <p:calendar id="datedebut" pattern="MM/dd/yyyy" value="#{reparationController.reparation.datedebut}" title="#{msg.EditReparationTitle_datedebut}" />
+                        <p:outputLabel value="#{msg.CreateReparationLabel_datefin}" for="datefin" />
+                        <p:calendar id="datefin" pattern="MM/dd/yyyy" value="#{reparationController.reparation.datefin}" title="#{msg.EditReparationTitle_datefin}" />
+                        <p:outputLabel value="#{msg.CreateReparationLabel_commentaire}" for="commentaire" />
+                        <p:inputText id="commentaire" value="#{reparationController.reparation.commentaire}" title="#{msg.CreateReparationTitle_commentaire}" />
+                        
+                        <p:outputLabel value="#{msg.CreateReparationLabel_idVehicule}" for="idVehicule" />
+                        <p:selectOneMenu id="idVehicule" value="#{reparationController.vehicule.idVehicule}" filter="true" >
+                            <f:selectItem itemLabel="#{msg.SelectOneMessage}"/>
+                            <f:selectItems value="#{reparationController.listVehicule}"
+                                           var="v"
+                                           itemLabel="#{v.immatriculation} (#{v.idModele.nom})"
+                                           itemValue="#{v.idVehicule}"/>
+                        </p:selectOneMenu>
+                        <p:outputLabel value="#{msg.CreateReparationLabel_idTypereparation}" for="idTypereparation" />
+                        <p:selectOneMenu id="idTypereparation" value="#{reparationController.typereparation.idTypereparation}" filter="true" >
+                            <f:selectItem itemLabel="#{msg.SelectOneMessage}"/>
+                            <f:selectItems value="#{reparationController.listTypereparation}"
+                                           var="tr"
+                                           itemLabel="#{tr.nom}"
+                                           itemValue="#{tr.idTypereparation}"/>
+                        </p:selectOneMenu>
+                        <p:outputLabel value="#{msg.CreateReparationLabel_idGarage}" for="idGarage"  />
+                        <p:selectOneMenu id="idGarage" value="#{reparationController.garage.idGarage}" filter="true" >
+                            <f:selectItem itemLabel="#{msg.SelectOneMessage}"/>
+                            <f:selectItems value="#{reparationController.listGarage}"
+                                           var="g"
+                                           itemLabel="#{g.nom}"
+                                           itemValue="#{g.idGarage}"/>
+                        </p:selectOneMenu>
+                    </p:panelGrid>
+                    <p:commandButton actionListener="#{reparationController.saveReparation()}" value="#{msg.Save}" update="display,:ReparationListForm:datalist" oncomplete="handleSubmit(args,'ReparationCreateDialog');"/>
+                    <p:commandButton value="#{msg.Cancel}" onclick="ReparationCreateDialog.hide()"/>
+                </h:panelGroup>
+            </h:form>
+        </p:dialog>
+
+    </ui:composition>
+</html>

@@ -1,0 +1,143 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="VehiculesAttribues_subreport" pageWidth="555" pageHeight="802" whenNoDataType="AllSectionsNoDetail" columnWidth="555" leftMargin="0" rightMargin="0" topMargin="0" bottomMargin="0" isIgnorePagination="true" uuid="10e7bebb-593a-46f5-b186-aca550a23710">
+	<property name="ireport.zoom" value="1.0"/>
+	<property name="ireport.x" value="0"/>
+	<property name="ireport.y" value="0"/>
+	<template><![CDATA["E:\\GPA\\Netbeans\\GPAuto\\web\\resources\\report\\styles.jrtx"]]></template>
+	<style name="alternative" mode="Transparent" forecolor="#CCCCCC" backcolor="#CCCCFF">
+		<conditionalStyle>
+			<conditionExpression><![CDATA[$V{REPORT_COUNT}%2 == 0]]></conditionExpression>
+			<style forecolor="#999999" backcolor="#FFCCFF"/>
+		</conditionalStyle>
+	</style>
+	<queryString language="SQL">
+		<![CDATA[SELECT
+     personnel."id_personnel" AS personnel_id_personnel,
+     personnel."id_fonction" AS personnel_id_fonction,
+     personnel."id_adresse" AS personnel_id_adresse,
+     personnel."id_service" AS personnel_id_service,
+     personnel."id_structure" AS personnel_id_structure,
+     personnel."nom_prenom" AS personnel_nom_prenom,
+     personnel."matricule" AS personnel_matricule,
+     personnel."cni" AS personnel_cni,
+     personnel."sexe" AS personnel_sexe,
+     personnel."date_naissance" AS personnel_date_naissance,
+     personnel."lieu_naissance" AS personnel_lieu_naissance,
+     personnel."nationalite" AS personnel_nationalite,
+     personnel."date_recrutement" AS personnel_date_recrutement,
+     personnel."photo" AS personnel_photo,
+     structure."id_structure" AS structure_id_structure,
+     structure."id_statutstructure" AS structure_id_statutstructure,
+     structure."id_adresse" AS structure_id_adresse,
+     structure."id_typestructure" AS structure_id_typestructure,
+     structure."id_arrondissement" AS structure_id_arrondissement,
+     structure."id_district" AS structure_id_district,
+     structure."id_region" AS structure_id_region,
+     structure."nom" AS structure_nom,
+     structure."localite" AS structure_localite,
+     structure."active" AS structure_active,
+     structure."gps_nord" AS structure_gps_nord,
+     structure."gps_sud" AS structure_gps_sud,
+     attribution."id_attribution" AS attribution_id_attribution,
+     attribution."id_vehicule" AS attribution_id_vehicule,
+     attribution."id_personnel" AS attribution_id_personnel,
+     attribution."dateattribution" AS attribution_dateattribution,
+     attribution."daterestitution" AS attribution_daterestitution,
+     attribution."datesyst" AS attribution_datesyst
+FROM
+     "public"."structure" structure INNER JOIN "public"."personnel" personnel ON structure."id_structure" = personnel."id_structure"
+     INNER JOIN "public"."attribution" attribution ON personnel."id_personnel" = attribution."id_personnel"]]>
+	</queryString>
+	<field name="personnel_id_personnel" class="java.lang.Integer"/>
+	<field name="personnel_id_fonction" class="java.lang.Integer"/>
+	<field name="personnel_id_adresse" class="java.lang.Integer"/>
+	<field name="personnel_id_service" class="java.lang.Integer"/>
+	<field name="personnel_id_structure" class="java.lang.Integer"/>
+	<field name="personnel_nom_prenom" class="java.lang.String"/>
+	<field name="personnel_matricule" class="java.lang.String"/>
+	<field name="personnel_cni" class="java.lang.String"/>
+	<field name="personnel_sexe" class="java.lang.String"/>
+	<field name="personnel_date_naissance" class="java.sql.Date"/>
+	<field name="personnel_lieu_naissance" class="java.lang.String"/>
+	<field name="personnel_nationalite" class="java.lang.String"/>
+	<field name="personnel_date_recrutement" class="java.sql.Date"/>
+	<field name="personnel_photo" class="java.lang.String"/>
+	<field name="structure_id_structure" class="java.lang.Integer"/>
+	<field name="structure_id_statutstructure" class="java.lang.Integer"/>
+	<field name="structure_id_adresse" class="java.lang.Integer"/>
+	<field name="structure_id_typestructure" class="java.lang.Integer"/>
+	<field name="structure_id_arrondissement" class="java.lang.Integer"/>
+	<field name="structure_id_district" class="java.lang.Integer"/>
+	<field name="structure_id_region" class="java.lang.Integer"/>
+	<field name="structure_nom" class="java.lang.String"/>
+	<field name="structure_localite" class="java.lang.String"/>
+	<field name="structure_active" class="java.lang.Boolean"/>
+	<field name="structure_gps_nord" class="java.lang.Double"/>
+	<field name="structure_gps_sud" class="java.lang.Double"/>
+	<field name="attribution_id_attribution" class="java.lang.Integer"/>
+	<field name="attribution_id_vehicule" class="java.lang.Integer"/>
+	<field name="attribution_id_personnel" class="java.lang.Integer"/>
+	<field name="attribution_dateattribution" class="java.sql.Date"/>
+	<field name="attribution_daterestitution" class="java.sql.Date"/>
+	<field name="attribution_datesyst" class="java.sql.Date"/>
+	<variable name="REPORT_TITLE" class="java.lang.String">
+		<initialValueExpression><![CDATA["Report Title Goes Here"]]></initialValueExpression>
+	</variable>
+	<columnHeader>
+		<band height="23" splitType="Stretch">
+			<frame>
+				<reportElement mode="Opaque" x="-21" y="2" width="660" height="20" forecolor="#FFFFFF" backcolor="#993C14" uuid="7bae561d-4ba2-46b4-b2b2-7527e53dfaa2"/>
+				<staticText>
+					<reportElement x="24" y="0" width="121" height="20" forecolor="#FFFFFF" uuid="599849f9-c721-46fd-b485-08635832194b"/>
+					<textElement textAlignment="Center"/>
+					<text><![CDATA[Nom]]></text>
+				</staticText>
+				<staticText>
+					<reportElement x="175" y="0" width="148" height="20" forecolor="#FFFFFF" uuid="012697a2-8fe1-4b51-8ed3-f8bf1abcc57f"/>
+					<textElement textAlignment="Center"/>
+					<text><![CDATA[Structure]]></text>
+				</staticText>
+				<staticText>
+					<reportElement x="359" y="0" width="100" height="20" forecolor="#FFFFFF" uuid="fb3878ff-eef4-4b0e-8489-9d8572adc2d7"/>
+					<textElement textAlignment="Center"/>
+					<text><![CDATA[Date Attribution]]></text>
+				</staticText>
+				<staticText>
+					<reportElement x="472" y="0" width="100" height="20" forecolor="#FFFFFF" uuid="75ac1e83-7e31-496c-84fe-ba36922ca849"/>
+					<textElement textAlignment="Center"/>
+					<text><![CDATA[Date Restitution]]></text>
+				</staticText>
+			</frame>
+			<line>
+				<reportElement x="-21" y="20" width="595" height="1" uuid="831bd668-7133-406d-b8f0-02df3e96e865"/>
+			</line>
+		</band>
+	</columnHeader>
+	<detail>
+		<band height="24" splitType="Stretch">
+			<frame>
+				<reportElement style="alternative" mode="Opaque" x="-21" y="2" width="595" height="20" forecolor="#000000" backcolor="#FFFFFF" uuid="7bdfeac9-4067-4dd7-ae1b-39766e9118a3"/>
+				<textField>
+					<reportElement x="24" y="0" width="121" height="20" uuid="6c16b6d0-a63c-4367-84f3-6a1a6611385d"/>
+					<textElement textAlignment="Center"/>
+					<textFieldExpression><![CDATA[$F{personnel_nom_prenom}]]></textFieldExpression>
+				</textField>
+				<textField>
+					<reportElement x="175" y="0" width="148" height="20" uuid="fd002f21-69aa-4e1e-9997-134236bff325"/>
+					<textElement textAlignment="Center"/>
+					<textFieldExpression><![CDATA[$F{structure_nom}]]></textFieldExpression>
+				</textField>
+				<textField pattern="dd-MMM">
+					<reportElement x="359" y="0" width="100" height="20" uuid="81e0e729-4d5a-4189-80e7-ce3689137be4"/>
+					<textElement textAlignment="Center"/>
+					<textFieldExpression><![CDATA[$F{attribution_dateattribution}]]></textFieldExpression>
+				</textField>
+				<textField pattern="dd-MMM" isBlankWhenNull="false">
+					<reportElement x="472" y="0" width="100" height="20" uuid="2c8b1d71-db48-4f9f-8e72-69b26c2376df"/>
+					<textElement textAlignment="Center" markup="styled"/>
+					<textFieldExpression><![CDATA[$F{attribution_daterestitution}]]></textFieldExpression>
+				</textField>
+			</frame>
+		</band>
+	</detail>
+</jasperReport>

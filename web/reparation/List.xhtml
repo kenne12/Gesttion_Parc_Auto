@@ -1,0 +1,100 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+    <ui:composition template="/template.xhtml">
+
+
+        <ui:define name="title">
+            <h:outputText value="#{msg.ListReparationTitle}"></h:outputText>
+        </ui:define>
+
+        <ui:define name="body">
+            <h:form id="ReparationListForm">
+                <p:messages id="msgErreur" closable="true"/>
+
+                <p:dataTable id="datalist" value="#{reparationController.listReparation}" var="item"
+                             selectionMode="single" selection="#{reparationController.reparation}"
+                             paginator="true"
+                             rowKey="#{item.idReparation}"
+                             rows="10"
+                             rowsPerPageTemplate="10,20,30,40,50"
+                             style="margin-top:1% !important; text-align:left; margin-left:2%; margin-right: 2%;font-weight: bold; font-style: oblique;"
+                             rowIndexVar="index"
+                             emptyMessage="#{msg.Vide}"
+                             widgetVar="reparationTable"
+                             draggableColumns="true"
+                             resizableColumns="true"
+                             >
+
+                    <p:ajax event="rowSelect"   update=":ReparationListForm:createButton :ReparationListForm:viewButton :ReparationListForm:editButton :ReparationListForm:deleteButton" listener="#{reparationController.activeBouton()}"/>
+                    <p:ajax event="rowUnselect" update=":ReparationListForm:createButton :ReparationListForm:viewButton :ReparationListForm:editButton :ReparationListForm:deleteButton"/>
+                    <p:ajax event="colResize"  listener="#{reparationController.onResize}" />  
+
+                    <f:facet name="header"> 
+                        <h:outputText value="#{msg.ListReparationTitle}"/>
+
+                    </f:facet> 
+
+                    <p:column style="width: 5% !important;">
+                        <f:facet name="header">
+                            <h:outputText value="#{msg.Numero}"/>
+                        </f:facet>
+                        <h:outputText value="#{index+1}"/>
+                    </p:column>                   
+                    <p:column sortBy="#{item.idVehicule.immatriculation}">
+                        <f:facet name="header">
+                            <h:outputText value="#{msg.ListReparationTitle_idVehicule}"/>
+                        </f:facet>
+                        <h:outputText value="#{item.idVehicule.immatriculation}"/>
+                    </p:column>
+                    <p:column sortBy="#{item.idGarage.nom}">
+                        <f:facet name="header">
+                            <h:outputText value="#{msg.ListReparationTitle_idGarage}"/>
+                        </f:facet>
+                        <h:outputText value="#{item.idGarage.nom}"/>
+                    </p:column>
+
+                    <p:column sortBy="#{item.idTypereparation.nom}" >
+                        <f:facet name="header">
+                            <h:outputText value="#{msg.ListReparationTitle_idTypereparation}"/>
+                        </f:facet>
+                        <h:outputText value="#{item.idTypereparation.nom}"/>
+                    </p:column>                    
+                    <p:column>
+                        <f:facet name="header">
+                            <h:outputText value="#{msg.ListReparationTitle_datereparation}"/>
+                        </f:facet>
+                        <h:outputText value="#{item.datereparation}">
+                            <f:convertDateTime pattern="MM/dd/yyyy" />
+                        </h:outputText>
+                    </p:column>
+                    <p:column sortBy="#{item.coutreparation}" >
+                        <f:facet name="header">
+                            <h:outputText value="#{msg.ListReparationTitle_coutreparation}"/>
+                        </f:facet>
+                        <h:outputText value="#{reparationController.moneyFormater(item.coutreparation)}"/>
+                    </p:column>
+
+                </p:dataTable>
+
+                <center>                    
+                    <p:commandButton id="createButton" icon="ui-icon-plus"   value="#{msg.Create}" actionListener="#{reparationController.prepareCreate}" update=":ReparationCreateForm" oncomplete="PF('ReparationCreateDialog').show()"/>
+                    <p:commandButton id="viewButton"   icon="ui-icon-search" value="#{msg.View}" update=":ReparationViewForm" oncomplete="PF('ReparationViewDialog').show()" disabled="#{reparationController.bouton}"/>
+                    <p:commandButton id="editButton"   icon="ui-icon-pencil" value="#{msg.Edit}" update=":ReparationEditForm" actionListener="#{reparationController.prepareEdit()}" oncomplete="PF('ReparationEditDialog').show()" disabled="#{reparationController.bouton}"/>
+                    <p:commandButton id="deleteButton" icon="ui-icon-trash"  value="#{msg.Delete}" actionListener="#{reparationController.prepareDelete()}" update="datalist" disabled="#{reparationController.bouton}"/>
+                </center>
+
+            </h:form>
+
+            <ui:include src="Create.xhtml"/>
+            <ui:include src="Edit.xhtml"/>
+            <ui:include src="View.xhtml"/>
+        </ui:define>
+    </ui:composition>
+
+</html>

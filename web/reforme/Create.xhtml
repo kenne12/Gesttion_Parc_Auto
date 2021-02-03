@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:p="http://primefaces.org/ui">
+
+    <ui:composition>
+
+        <p:dialog id="ReformeCreateDlg" widgetVar="ReformeCreateDialog" modal="true" resizable="false" appendTo="@(body)" header="#{msg.CreateReformeTitle}">
+            <h:form id="ReformeCreateForm">
+                <h:panelGroup id="display">
+                    <p:panelGrid columns="2" rendered="#{reformeController.vehiculeAReformer != null}">
+                        
+                        
+                        <h:panelGroup> 
+                            
+                            <p:panelGrid columns="2"> 
+                                        
+                                <p:outputLabel value="#{msg.CreateReformeLabel_datemisereforme}" for="datemisereforme" />
+                                                          
+                                <p:calendar id="datemisereforme" pattern="dd/MM/yyyy" value="#{reformeController.reforme.datemisereforme}" title="#{msg.CreateReformeTitle_datemisereforme}"/>
+                                
+                                <p:outputLabel value="#{msg.CreateReformeLabel_datevente}" for="datevente" />                               
+                                <p:calendar id="datevente" pattern="dd/MM/yyyy" value="#{reformeController.reforme.datevente}" title="#{msg.CreateReformeTitle_datevente}"/>
+
+                                
+                                <p:outputLabel value="#{msg.CreateReformeLabel_montantvente}" for="montantvente" />
+                                <p:inputText id="montantvente" value="#{reformeController.reforme.montantvente}" title="#{msg.CreateReformeTitle_montantvente}" />
+                                
+                                <p:outputLabel value="#{msg.CreateReformeLabel_vendu}" for="vendu" />
+                                <p:selectBooleanCheckbox id="vendu" value="#{reformeController.reforme.vendu}" />
+                            
+                            </p:panelGrid>
+                        </h:panelGroup> 
+                        
+                        <p:graphicImage id="affi_photo" value="/resources/images/#{reformeController.vehiculeAReformer.photo}" 
+                                    height="454" width="350"
+                                    style="border-radius: 10px 10px 10px 10px;"/>
+                                                               
+                        
+                    </p:panelGrid>
+                    <p:commandButton actionListener="#{reformeController.saveReforme()}" value="#{msg.Save}" update="display,:ReformeListForm:datalist,:ReformeProForm:datalist" oncomplete="PF('ReformeCreateDialog').hide(),PF('ReformeProDialog').hide()"/>
+                    <p:commandButton value="#{msg.Cancel}" onclick="ReformeCreateDialog.hide()"/>
+                </h:panelGroup>
+            </h:form>
+        </p:dialog>
+
+    </ui:composition>
+</html>

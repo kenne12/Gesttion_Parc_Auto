@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+    <ui:composition template="/template.xhtml">
+
+
+        <ui:define name="title">
+            <h:outputText value="#{msg.ListTypestructureTitle}"></h:outputText>
+        </ui:define>
+
+        <ui:define name="body">
+            <h:form id="TypestructureListForm">
+
+
+                <p:dataTable id="datalist" value="#{typestructureController.listTypestructure}" var="item"
+                             selectionMode="single" selection="#{typestructureController.typestructure}"
+                             paginator="true"
+                             rowKey="#{item.idTypestructure}"
+                             rows="10"
+                             rowsPerPageTemplate="10,20,30,40,50"
+                             style="margin-top:1% !important; text-align:left; margin-left:20%; margin-right: 20%;font-weight: bold; font-style: oblique;"
+                             rowIndexVar="index"
+                             emptyMessage="#{msg.Vide}"
+                             widgetVar="typestructureTable"
+                             draggableColumns="true"
+                             resizableColumns="true"
+                             >
+
+                    <p:ajax event="rowSelect"   update=":TypestructureListForm:createButton :TypestructureListForm:viewButton :TypestructureListForm:editButton :TypestructureListForm:deleteButton" listener="#{typestructureController.activeBouton()}"/>
+                    <p:ajax event="rowUnselect" update=":TypestructureListForm:createButton :TypestructureListForm:viewButton :TypestructureListForm:editButton :TypestructureListForm:deleteButton"/>
+                    <p:ajax event="colResize"  listener="#{typestructureController.onResize}" />  
+
+                    <f:facet name="header"> 
+                        <h:outputText value="#{msg.ListTypestructureTitle}"/>                            
+                    </f:facet> 
+
+                    <p:column style="width: 10% !important;">
+                        <f:facet name="header">
+                            <h:outputText value="#{msg.Numero}"/>
+                        </f:facet>
+                        <h:outputText value="#{index+1}"/>
+                    </p:column>
+
+                    <p:column sortBy="#{item.codeFr}" filterBy="#{item.codeFr}">
+                        <f:facet name="header">
+                            <h:outputText value="#{msg.ListTypestructureTitle_codeFr}"/>
+                        </f:facet>
+                        <h:outputText value="#{item.codeFr}"/>
+                    </p:column>
+                    <p:column sortBy="#{item.nomFr}" filterBy="#{item.nomFr}">
+                        <f:facet name="header">
+                            <h:outputText value="#{msg.ListTypestructureTitle_nomFr}"/>
+                        </f:facet>
+                        <h:outputText value="#{item.nomFr}"/>
+                    </p:column>
+
+
+
+                </p:dataTable>                
+
+                <center>
+                    <p:commandButton id="createButton" icon="ui-icon-plus"   value="#{msg.Create}" actionListener="#{typestructureController.prepareCreate}" update=":TypestructureCreateForm" oncomplete="PF('TypestructureCreateDialog').show()"/>
+                    <p:commandButton id="viewButton"   icon="ui-icon-search" value="#{msg.View}" update=":TypestructureViewForm" oncomplete="PF('TypestructureViewDialog').show()" disabled="#{typestructureController.bouton}"/>
+                    <p:commandButton id="editButton"   icon="ui-icon-pencil" value="#{msg.Edit}" actionListener="#{typestructureController.prepareEdit()}" update=":TypestructureEditForm" oncomplete="PF('TypestructureEditDialog').show()" disabled="#{typestructureController.bouton}"/>
+                    <p:commandButton id="deleteButton" icon="ui-icon-trash"  value="#{msg.Delete}" actionListener="#{typestructureController.prepareDelete()}" update=":TypestructureDeleteForm" oncomplete="PF('TypestructureDeleteDialog').show()" disabled="#{typestructureController.bouton}"/>
+                </center>
+
+
+                
+
+            </h:form>
+
+            <ui:include src="Create.xhtml"/>
+            <ui:include src="Edit.xhtml"/>
+            <ui:include src="View.xhtml"/>
+            <ui:include src="Delete.xhtml"/>
+        </ui:define>
+    </ui:composition>
+
+</html>

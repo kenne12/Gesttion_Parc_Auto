@@ -1,0 +1,101 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+    <ui:composition>
+
+        <p:dialog id="PersonnelEditDlg" widgetVar="PersonnelEditDialog" modal="true" resizable="false" appendTo="@(body)" header="#{msg.EditPersonnelTitle}">
+            <h:form id="PersonnelEditForm" enctype="multipart/form-data">
+                <p:panelGrid columns="2" rendered="#{personnelController.personnel != null}">
+                    <h:panelGroup id="display" style="float: left; font-weight: bold; font-style: oblique; width: 100%;">
+                        <p:panelGrid columns="2">
+                            <p:outputLabel value="#{msg.EditPersonnelLabel_matricule}" for="matricule" />
+                            <p:inputText id="matricule" value="#{personnelController.personnel.matricule}" style="font-weight: bold; font-style: oblique; width: 35%; " title="#{msg.EditPersonnelTitle_matricule}"  required="true"/>
+                            <p:outputLabel value="#{msg.EditPersonnelLabel_cni}" for="cni" />
+                            <p:inputText id="cni" value="#{personnelController.personnel.cni}" style="font-weight: bold; font-style: oblique; width: 35%; " title="#{msg.EditPersonnelTitle_cni}" required="true"/>
+                            <p:outputLabel value="#{msg.EditPersonnelLabel_nomPrenom}" for="nomPrenom" />
+                            <p:inputText id="nomPrenom" value="#{personnelController.personnel.nomPrenom}" style="font-weight: bold; font-style: oblique; width: 280px" title="#{msg.EditPersonnelTitle_nomPrenom}" />
+                            <p:outputLabel value="#{msg.EditPersonnelLabel_sexe}" for="sexe" />
+                            <p:selectOneMenu id="sexe" value="#{personnelController.personnel.sexe}" style="font-weight: bold; font-style: oblique; width: 55%">
+                                <f:selectItem itemLabel="#{msg.Masculin}" itemValue="#{msg.Masculin}"/>
+                                <f:selectItem itemLabel="#{msg.Feminin}" itemValue="#{msg.Feminin}"/>
+                            </p:selectOneMenu>
+                            <p:outputLabel value="#{msg.EditPersonnelLabel_dateNaissance}" for="dateNaissance" />
+                            <p:calendar id="dateNaissance" pattern="MM/dd/yyyy" value="#{personnelController.personnel.dateNaissance}"  size="7" title="#{msg.EditPersonnelTitle_dateNaissance}"/>
+                            <p:outputLabel value="#{msg.EditPersonnelLabel_lieuNaissance}" for="lieuNaissance" />
+                            <p:inputText id="lieuNaissance" value="#{personnelController.personnel.lieuNaissance}" style="font-weight: bold; font-style: oblique; width: 70%" title="#{msg.EditPersonnelTitle_lieuNaissance}" />
+                            <p:outputLabel value="#{msg.EditPersonnelLabel_dateRecrutement}" for="dateRecrutement" />
+                            <p:calendar id="dateRecrutement" pattern="MM/dd/yyyy" value="#{personnelController.personnel.dateRecrutement}" size="7" title="#{msg.EditPersonnelTitle_dateRecrutement}"/>
+                            <p:outputLabel value="#{msg.EditAdresseLabel_tel}" for="tel" />
+                            <p:inputText id="tel" value="#{personnelController.personnel.idAdresse.tel}" title="#{msg.EditAdresseTitle_tel}" style="font-weight: bold; font-style: oblique; width: 50%"/>
+                            <p:outputLabel value="#{msg.EditAdresseLabel_bp}" for="bp" />
+                            <p:inputText id="bp" value="#{personnelController.personnel.idAdresse.bp}" title="#{msg.EditAdresseTitle_bp}" style="font-weight: bold; font-style: oblique; width: 50%"/>
+                            <p:outputLabel value="#{msg.EditAdresseLabel_fax}" for="fax" />
+                            <p:inputText id="fax" value="#{personnelController.personnel.idAdresse.fax}" title="#{msg.EditAdresseTitle_fax}" style="font-weight: bold; font-style: oblique; width: 50%"/>
+                            <p:outputLabel value="#{msg.EditPersonnelLabel_nationalite}" for="nationalite" />
+                            <p:inputText id="nationalite" value="#{personnelController.personnel.nationalite}" title="#{msg.EditPersonnelTitle_nationalite}" style="font-weight: bold; font-style: oblique; width: 80%;"/>
+                            <p:outputLabel value="#{msg.EditAdresseLabel_email}" for="email" />
+                            <p:inputText id="email" value="#{personnelController.personnel.idAdresse.email}" title="#{msg.EditAdresseTitle_email}" style="font-weight: bold; font-style: oblique; width: 80%"/>
+                            <p:outputLabel value="#{msg.EditAdresseLabel_siteweb}" for="siteweb" />
+                            <p:inputText id="siteweb" value="#{personnelController.personnel.idAdresse.siteweb}" title="#{msg.EditAdresseTitle_siteweb}" style="font-weight: bold; font-style: oblique; width: 80%"/>
+
+                            <p:outputLabel value="Structure" for="idStructure" />
+                            <p:selectOneMenu id="idStructure" value="#{personnelController.structure}" converter="structureConverter" required="true" requiredMessage="structure requise">
+
+                                <f:selectItems value="#{structureController.listStructure}"
+                                               var="idStructureItem"
+                                               itemValue="#{idStructureItem}"
+                                               itemLabel="#{idStructureItem.nom}"
+                                               />
+                            </p:selectOneMenu> 
+
+                            <p:outputLabel value="#{msg.EditPersonnelLabel_idService}" for="idService" />
+                            <p:selectOneMenu id="idService" value="#{personnelController.service}" style="font-weight: bold; font-style: oblique; width: 55%" converter="serviceConverter">
+                                <f:selectItems value="#{personnelController.listService}"
+                                               var="s"
+                                               itemLabel="#{s.nom}"
+                                               itemValue="#{s}"/>
+                            </p:selectOneMenu>
+
+                            <p:outputLabel value="#{msg.EditPersonnelLabel_idFonction}" for="idFonction" />
+                            <p:selectOneMenu id="idFonction" value="#{personnelController.fonction}" style="font-weight: bold; font-style: oblique; width: 55%" converter="fonctionConverter">
+                                <f:selectItems value="#{personnelController.listFonction}"
+                                               var="f"
+                                               itemLabel="#{f.nom}"
+                                               itemValue="#{f}"/>
+                            </p:selectOneMenu>
+
+
+
+                        </p:panelGrid>
+                    </h:panelGroup>
+                    <h:panelGroup style="float: left; font-weight: bold; font-style: oblique; width: 100%">                     
+                        <p:graphicImage id="affi_photo1" value="/resources/images/#{personnelController.photo}" 
+                                        height="454" width="350"
+                                        style="border-radius: 10px 10px 10px 10px; border: 5px;font-weight: bold; font-style: oblique;"
+                                        />
+                        <p:fileUpload id="photo1" fileUploadListener="#{personnelController.handleFileUpload}"  
+                                      label="#{msg.Inserer_photo_personnel}"
+                                      uploadLabel="Télécharger"
+                                      cancelLabel="Annuler"
+                                      mode="advanced"   
+                                      update="affi_photo1"  
+                                      sizeLimit="10000000"   
+                                      allowTypes="/(\.|\/)(gif|jpe?g|png)$/"
+                                      auto="true"
+                                      style="text-align:left; font-weight: bold; font-style: oblique;"
+                                      />
+                    </h:panelGroup>
+                </p:panelGrid>
+                <p:commandButton  actionListener="#{personnelController.editPersonnel()}" style="float: right;" icon="ui-icon-check" value="#{msg.Valider}" update="display,:PersonnelListForm:datalist" oncomplete="handleSubmit(args, 'PersonnelEditDialog');"/>
+                <p:commandButton  style="float: right; color: red;" icon="ui-icon-close" value="#{msg.Cancel}" onclick="PersonnelEditDialog.hide()"/>
+
+            </h:form>
+        </p:dialog>
+
+    </ui:composition>
+</html>

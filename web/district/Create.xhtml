@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
+
+    <ui:composition>
+
+        <p:dialog id="DistrictCreateDlg" style="width: 25%" widgetVar="DistrictCreateDialog" modal="true" resizable="false" appendTo="@(body)" header="#{msg.CreateDistrictTitle}">
+            <h:form id="DistrictCreateForm">
+                
+                       
+                    <p:panelGrid style="width:250px " columns="2">
+                        <p:outputLabel value="#{msg.CreateDistrictLabel_nom}" for="nom" />
+                        <p:inputText id="nom" value="#{districtController.district.nom}" title="#{myBundle.CreateDistrictTitle_nom}" style="width: 75%" size="255" maxlength="255"/>
+                        
+                        <p:outputLabel value="Région" for="region" /> 
+                        
+                        <p:selectOneMenu id="region" value="#{districtController.region.idRegion}" required="true" requiredMessage="Région requise" filter="true">                        
+                            <f:selectItem itemLabel="--faites votre choix--"/>
+                            
+                            <f:selectItems value="#{districtController.regions}" var="r" itemLabel="#{r.nom}" itemValue="#{r.idRegion}"/>                        
+                        </p:selectOneMenu>
+                       
+                    </p:panelGrid> 
+                   
+                    
+                    <p:commandButton actionListener="#{districtController.saveDistrict()}" style="float: right;" icon="ui-icon-check" value="#{msg.Valider}" update=":DistrictListForm:datalist,:DistrictListForm:msgErreur" oncomplete="handleSubmit(args,'DistrictCreateDialog');"/>
+                    <p:commandButton style="float: right; color: red;" icon="ui-icon-close" value="#{msg.Cancel}" onclick="DistrictCreateDialog.hide()"/>
+                    
+            </h:form>
+        </p:dialog>
+
+    </ui:composition>
+</html>

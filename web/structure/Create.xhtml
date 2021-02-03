@@ -1,0 +1,100 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+    <ui:composition>
+
+        <p:dialog id="StructureCreateDlg" widgetVar="StructureCreateDialog" modal="true" resizable="false" appendTo="@(body)" header="#{msg.CreateStructureTitle}">
+            <h:form id="StructureCreateForm">
+                <h:panelGroup id="display"  style="float: left; font-weight: bold; font-style: oblique; width: 100%;">
+                    <p:panelGrid columns="2" >
+                        <p:outputLabel value="#{msg.CreateStructureLabel_nom}" for="nom" />
+                        <p:inputText id="nom" value="#{structureController.structure.nom}" title="#{msg.CreateStructureTitle_nom}" style="float: left; font-weight: bold; font-style: oblique; width: 350px;"/>
+                        
+                        <p:outputLabel value="#{msg.CreateStructureLabel_localite}" for="localite" />
+                        <p:inputText id="localite" value="#{structureController.structure.localite}" title="#{msg.CreateStructureTitle_localite}" style="font-weight: bold; font-style: oblique; width: 60%;"/>
+                        <p:outputLabel value="#{msg.CreateAdresseLabel_bp}" for="bp" />
+                        <p:inputText id="bp" value="#{structureController.adresse.bp}" title="#{msg.CreateAdresseTitle_bp}" style="font-weight: bold; font-style: oblique; width: 50%;"/>
+                        <p:outputLabel value="#{msg.CreateAdresseLabel_fax}" for="fax" />
+                        <p:inputText id="fax" value="#{structureController.adresse.fax}" title="#{msg.CreateAdresseTitle_fax}" style="font-weight: bold; font-style: oblique; width: 50%;"/>
+                        <p:outputLabel value="#{msg.CreateAdresseLabel_tel}" for="tel" />
+                        <p:inputText id="tel" value="#{structureController.adresse.tel}" title="#{msg.CreateAdresseTitle_tel}" style="font-weight: bold; font-style: oblique; width: 50%;"/>
+                        <p:outputLabel value="#{msg.CreateAdresseLabel_email}" for="email" />
+                        <p:inputText id="email" value="#{structureController.adresse.email}" title="#{msg.CreateAdresseTitle_email}" style="font-weight: bold; font-style: oblique; width: 60%;"/>
+                        <p:outputLabel value="#{msg.CreateAdresseLabel_siteweb}" for="siteweb" />
+                        <p:inputText id="siteweb" value="#{structureController.adresse.siteweb}" title="#{msg.CreateAdresseTitle_siteweb}" style="font-weight: bold; font-style: oblique; width: 60%;"/>
+                        <p:outputLabel value="#{msg.CreateStructureLabel_active}" for="active" />
+                        <p:selectBooleanCheckbox id="active" value="#{structureController.structure.active}" />
+                        <p:outputLabel value="#{msg.CreateStructureLabel_gpsNord}" for="gpsNord" />
+                        <p:inputText id="gpsNord" value="#{structureController.structure.gpsNord}" title="#{msg.CreateStructureTitle_gpsNord}" style="font-weight: bold; font-style: oblique; width: 30%;"/>
+                        <p:outputLabel value="#{msg.CreateStructureLabel_gpsSud}" for="gpsSud" />
+                        <p:inputText id="gpsSud" value="#{structureController.structure.gpsSud}" title="#{msg.CreateStructureTitle_gpsSud}" style="font-weight: bold; font-style: oblique; width: 30%;"/>
+
+
+                        <p:outputLabel value="#{msg.CreateStructureLabel_idTypestructure}" for="idTypestructure" />
+                        <p:selectOneMenu id="idTypestructure" value="#{structureController.typestructure.idTypestructure}" style="font-weight: bold; font-style: oblique; width: 65%;">
+                            <f:selectItem itemLabel="#{msg.SelectOneMessage}"/>
+                            <f:selectItems value="#{structureController.listTypestructure}"
+                                           var="ts"
+                                           itemLabel="#{ts.nomFr}(#{ts.codeFr})"
+                                           itemValue="#{ts.idTypestructure}"/>
+                        </p:selectOneMenu>
+                        <p:outputLabel value="#{msg.CreateStructureLabel_idStatutstructure}" for="idStatutstructure" />
+                        <p:selectOneMenu id="idStatutstructure" value="#{structureController.statutstructure.idStatutstructure}" style="font-weight: bold; font-style: oblique; width: 65%;">
+                            <f:selectItem itemLabel="#{msg.SelectOneMessage}"/>
+                            <f:selectItems value="#{structureController.listStatutstructure}"
+                                           var="ss"
+                                           itemLabel="#{ss.nom}"
+                                           itemValue="#{ss.idStatutstructure}"/>
+                        </p:selectOneMenu>
+
+                        <p:outputLabel value="#{msg.CreateStructureLabel_idRegion}" for="idRegion" />
+                        <p:selectOneMenu id="idRegion" value="#{structureController.region.idRegion}">
+                            <f:selectItem itemLabel="#{msg.SelectOneMessage}"/>
+                            <f:selectItems value="#{regionController.listRegion}"
+                                           var="idRegionItem"
+                                           itemValue="#{idRegionItem.idRegion}"
+                                           itemLabel="#{idRegionItem.nom}"
+                                           />
+                            <p:ajax update="idDistrict" listener="#{structureController.filtreDistrict()}"/>
+                        </p:selectOneMenu>  
+
+
+                        <p:outputLabel value="#{msg.CreateStructureLabel_idDistrict}" for="idDistrict" />
+                        <p:selectOneMenu id="idDistrict" value="#{structureController.district.idDistrict}">
+                            <f:selectItem itemLabel="#{msg.SelectOneMessage}"/>
+                            <f:selectItems value="#{structureController.listDistrict}"
+                                           var="idDistrictItem"
+                                           itemValue="#{idDistrictItem.idDistrict}"
+                                           itemLabel="#{idDistrictItem.nom}"
+                                           />
+
+                        </p:selectOneMenu> 
+
+
+
+                        <p:outputLabel value="#{msg.CreateStructureLabel_idArrondissement}" for="idArrondissement" />
+                        <p:selectOneMenu id="idArrondissement" value="#{structureController.arrondissement.idArrondissement}" style="font-weight: bold; font-style: oblique; width: 65%;">
+                            <f:selectItem itemLabel="#{msg.SelectOneMessage}"/>
+                            <f:selectItems value="#{structureController.listArrondissement}"
+                                           var="arr"
+                                           itemLabel="#{arr.nom}"
+                                           itemValue="#{arr.idArrondissement}"/>
+                        </p:selectOneMenu>
+
+
+
+                    </p:panelGrid>
+                    <p:commandButton actionListener="#{structureController.saveStructure()}" style="float: right;" icon="ui-icon-check" value="#{msg.Valider}" update="display,:StructureListForm:datalist" oncomplete="handleSubmit(args,'StructureCreateDialog');"/>
+                    <p:commandButton style="float: right; color: red;" icon="ui-icon-close" value="#{msg.Cancel}" onclick="StructureCreateDialog.hide()"/>
+
+                </h:panelGroup>
+            </h:form>
+        </p:dialog>
+
+    </ui:composition>
+</html>

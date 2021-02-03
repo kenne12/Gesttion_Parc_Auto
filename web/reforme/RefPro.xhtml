@@ -1,0 +1,119 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+    <ui:composition>
+
+        <p:dialog id="ReformeProDlg" widgetVar="ReformeProDialog"  width="1200" modal="true" resizable="false" appendTo="@(body)" header="Reforme programmée des véhicule">
+            <h:form id="ReformeProForm">
+                <h:panelGroup >
+                                  
+                    <p:ajaxStatus style="display:block;margin-bottom:2em;height:24px;">
+                        <f:facet name="default">
+                            <h:outputText value="" />
+                        </f:facet>
+
+                        <f:facet name="start">
+                            <p:graphicImage value="/resources/images/ajaxloadingbar.gif" />
+                        </f:facet>
+
+                        <f:facet name="complete">
+                            <h:outputText value="" />
+                        </f:facet>
+                    </p:ajaxStatus> 
+                    
+                    <p:ajaxStatus onstart="PF('statusDialog').show()" onsuccess="PF('statusDialog').hide()" />
+ 
+                    <p:dialog widgetVar="statusDialog" modal="true" draggable="false" closable="false" resizable="false" showHeader="false">
+                        <p:graphicImage value="/resources/images/ajaxloadingbar.gif" />
+                    </p:dialog> 
+                  
+                    <center>                    
+                        <p:panelGrid columns="3">
+                            <p:outputLabel value="Date" for="date"/>            
+                            <p:calendar id="date" locale="fr" pattern="dd/MM/yyyy" value="#{reformeController.date}" 
+                                        title="#{msg.EditVehiculeTitle_dateacquisition}"  navigator="true" effect="fold" styleClass="custom"
+                                        size="15" placeholder="dd/mm/yyyy">                            
+                            </p:calendar>  
+
+                            <p:commandButton actionListener="#{reformeController.filtre()}" value="Chercher" update="datalist"/>
+                        </p:panelGrid>
+                    </center> 
+                   
+                    <p:dataTable id="datalist" value="#{reformeController.vehiculesAReformer}" var="item"
+                             selectionMode="single" selection="#{reformeController.vehiculeAReformer}"
+                             paginator="true"
+                             rowKey="#{item.idVehicule}"
+                             rows="15"
+                             rowsPerPageTemplate="15,20,30,40,50"
+                             style="margin-top:1% !important; text-align:left; margin-left:5%; margin-right: 5%;font-weight: bold; font-style: oblique;"
+                             rowIndexVar="index"
+                             emptyMessage="#{msg.Vide}"
+                             widgetVar="vehiculeTable"
+                             draggableColumns="true"
+                             resizableColumns="true"
+                             rowStyleClass="#{vehiculeController.computeColor(item.etat)}"
+                             >
+
+                        <p:ajax event="rowSelect" update=":ReformeCreateForm"   listener="#{reformeController.prepareCreate()}" oncomplete="PF('ReformeCreateDialog').show()"/>                        
+                        <p:ajax event="rowUnselect" />                       
+
+                    <p:column style="width: 5% !important; color: black; background-color: beige;">
+                        <f:facet name="header">
+                            <h:outputText value="#{msg.Numero}"/>
+                        </f:facet>
+                        <h:outputText value="#{index+1}"/>
+                    </p:column>
+
+                    <p:column sortBy="#{item.immatriculation}" filterBy="#{item.immatriculation}">
+                        <f:facet name="header">
+                            <h:outputText value="#{msg.ListVehiculeTitle_immatriculation}"/>
+                        </f:facet>
+                        <h:outputText value="#{item.immatriculation}"/>
+                    </p:column>
+                    <p:column sortBy="#{item.dateacquisition}" filterBy="#{item.dateacquisition}">
+                        <f:facet name="header">
+                            <h:outputText value="#{msg.ListVehiculeTitle_dateacquisition}"/>
+                        </f:facet>
+                        <h:outputText value="#{item.dateacquisition}">
+                            <f:convertDateTime pattern="dd/MM/yyyy" />
+                        </h:outputText>
+                    </p:column>
+                    <p:column sortBy="#{item.coutachatttc}" filterBy="#{item.coutachatttc}">
+                        <f:facet name="header">
+                            <h:outputText value="#{msg.ListVehiculeTitle_coutachatttc}"/>
+                        </f:facet>
+                        <h:outputText value="#{item.coutachatttc}"/>
+                    </p:column>
+                    <p:column sortBy="#{item.idCategorievehicule.nom}" filterBy="#{item.idCategorievehicule.nom}">
+                        <f:facet name="header">
+                            <h:outputText value="#{msg.Categorie_vehicule}"/>
+                        </f:facet>
+                        <h:outputText value="#{item.idCategorievehicule.nom}"/>
+                    </p:column>
+                    <p:column sortBy="#{item.idModele.nom}" filterBy="#{item.idModele.nom}">
+                        <f:facet name="header">
+                            <h:outputText value="#{msg.Marque}"/>
+                        </f:facet>
+                        <h:outputText value="#{item.idModele.nom} #{item.idModele.idMarque.nom}"/>
+                    </p:column>                    
+                    
+                    <p:column filterBy="#{item.etat}" >
+                        <f:facet name="header">
+                            <h:outputText value="#{msg.ListVehiculeTitle_etat}"/>
+                        </f:facet>
+                        <h:outputText value="#{item.etat}"/>
+                    </p:column>
+                    
+                </p:dataTable> 
+                   
+                </h:panelGroup>
+            </h:form>
+        </p:dialog>
+
+    </ui:composition>
+</html>

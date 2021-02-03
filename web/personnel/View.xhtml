@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+    <ui:composition>
+
+        <p:dialog id="PersonnelViewDlg" widgetVar="PersonnelViewDialog" modal="true" resizable="false" appendTo="@(body)" header="#{msg.ViewPersonnelTitle}">
+            <h:form id="PersonnelViewForm">
+                <p:panelGrid columns="2" rendered="#{personnelController.personnel != null}">
+                    <h:panelGroup id="display" style="float: left; font-weight: bold; font-style: oblique; width: 100%;">
+                        <p:panelGrid columns="2">
+
+                            <h:outputText value="#{msg.ViewPersonnelLabel_matricule}"/>
+                            <h:outputText value="#{personnelController.personnel.matricule}" title="#{msg.ViewPersonnelTitle_matricule}"/>
+                            <h:outputText value="#{msg.ViewPersonnelLabel_cni}"/>
+                            <h:outputText value="#{personnelController.personnel.cni}" title="#{msg.ViewPersonnelTitle_cni}"/>
+                            <h:outputText value="#{msg.ViewPersonnelLabel_nomPrenom}"/>
+                            <h:outputText value="#{personnelController.personnel.nomPrenom}" title="#{msg.ViewPersonnelTitle_nomPrenom}"/>
+                            <h:outputText value="#{msg.ViewPersonnelLabel_sexe}"/>
+                            <h:outputText value="#{personnelController.personnel.sexe}" title="#{msg.ViewPersonnelTitle_sexe}"/>
+                            <h:outputText value="#{msg.ViewPersonnelLabel_dateNaissance}"/>
+                            <h:outputText value="#{personnelController.personnel.dateNaissance}" title="#{msg.ViewPersonnelTitle_dateNaissance}">
+                                <f:convertDateTime pattern="dd/MM/yyyy" />
+                            </h:outputText>
+                            <h:outputText value="#{msg.ViewPersonnelLabel_lieuNaissance}"/>
+                            <h:outputText value="#{personnelController.personnel.lieuNaissance}" title="#{msg.ViewPersonnelTitle_lieuNaissance}"/>
+                            <h:outputText value="#{msg.ViewPersonnelLabel_dateRecrutement}"/>
+                            <h:outputText value="#{personnelController.personnel.dateRecrutement}" title="#{msg.ViewPersonnelTitle_dateRecrutement}">
+                                <f:convertDateTime pattern="dd/MM/yyyy" />
+                            </h:outputText>
+                            <h:outputText value="#{msg.ViewAdresseLabel_tel}"/>
+                            <h:outputText value="#{personnelController.personnel.idAdresse.tel}" title="#{msg.ViewAdresseTitle_tel}"/>
+                            <h:outputText value="#{msg.ViewAdresseLabel_bp}"/>
+                            <h:outputText value="#{personnelController.personnel.idAdresse.bp}" title="#{msg.ViewAdresseTitle_bp}"/>
+                            <h:outputText value="#{msg.ViewPersonnelLabel_nationalite}"/>
+                            <h:outputText value="#{personnelController.personnel.nationalite}" title="#{msg.ViewPersonnelTitle_nationalite}"/>
+                            <h:outputText value="#{msg.ViewAdresseLabel_email}"/>
+                            <h:outputText value="#{personnelController.personnel.idAdresse.email}" title="#{msg.ViewAdresseTitle_email}"/>
+                            <h:outputText value="#{msg.ViewAdresseLabel_fax}"/>
+                            <h:outputText value="#{personnelController.personnel.idAdresse.fax}" title="#{msg.ViewAdresseTitle_fax}"/>
+                            <h:outputText value="#{msg.ViewAdresseLabel_siteweb}"/>
+                            <h:outputText value="#{personnelController.personnel.idAdresse.siteweb}" title="#{msg.ViewAdresseTitle_siteweb}"/>
+
+                            <h:outputText value="Structure"/>
+                            <h:outputText value="#{personnelController.personnel.idStructure.nom}"/> 
+
+                            <h:outputText value="#{msg.ViewPersonnelLabel_idService}"/>
+                            <h:outputText value="#{personnelController.personnel.idService.nom}" title="#{msg.ViewPersonnelTitle_idService}"/>
+
+                            <h:outputText value="#{msg.ViewPersonnelLabel_idFonction}"/>
+                            <h:outputText value="#{personnelController.personnel.idFonction.nom}" title="#{msg.ViewPersonnelTitle_idFonction}"/>
+                            
+
+                        </p:panelGrid>
+                    </h:panelGroup>                    
+                    <p:graphicImage id="affi_photo" value="/resources/images/#{personnelController.personnel.photo}" 
+                                    width="350" height="520"
+                                    style="border-radius: 10px 10px 10px 10px;"
+                                    />
+                </p:panelGrid>
+                <p:commandButton style="float: right; color: red;" icon="ui-icon-close" value="#{msg.Close}" onclick="PersonnelViewDialog.hide()"/>
+            </h:form>
+        </p:dialog>
+
+    </ui:composition>
+</html>

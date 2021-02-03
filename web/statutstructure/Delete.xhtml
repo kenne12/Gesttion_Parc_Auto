@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:p="http://primefaces.org/ui">
+
+    <ui:composition>
+
+        <p:dialog id="StatutstructureDeleteDlg" widgetVar="StatutstructureDeleteDialog" modal="true" resizable="false" appendTo="@(body)" header="#{msg.CreateStatutstructureTitle}">
+            <h:form id="StatutstructureDeleteForm">
+                <h:panelGroup rendered="#{statutstructureController.statutstructure != null}">
+                    <center><h:graphicImage  value="/resources/images/cancel.png" width="40" height="40" style="cursor:pointer;" /></center>
+                    <hr size="3" style="background-color: appworkspace;"/>
+                    <h:outputText value="#{statutstructureController.msg}" style=" font-weight: bold !important; font-style: italic;"/>
+                    <hr size="3" style="background-color: appworkspace;"/>
+                    <p:commandButton style="float: right;" value="#{msg.Oui}" icon="ui-icon-check" actionListener="#{statutstructureController.deleteStatutstructure()}" update=":StatutstructureListForm:datalist" oncomplete="handleSubmit(args,'StatutstructureDeleteDialog');"/>
+                    <p:commandButton style="float: right; color: red;" value="#{msg.Non}" icon="ui-icon-close" onclick="StatutstructureDeleteDialog.hide()"/>
+                    
+                </h:panelGroup>
+            </h:form>
+        </p:dialog>
+
+    </ui:composition>
+</html>

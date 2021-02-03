@@ -1,0 +1,190 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+    <ui:composition>
+
+        <p:dialog id="RestitutionCreateDlg" widgetVar="RestitutionCreateDialog" modal="true" resizable="false" appendTo="@(body)" header="#{msg.CreateRestitutionTitle}">
+            <h:form id="RestitutionCreateForm">
+                <p:accordionPanel id="personnelAccordionPanel" style="text-align:left; font-weight: bold; font-style: oblique;">  
+                    <p:tab title="Restituteur">
+                        <p:panelGrid columns="4">   
+                            <p:outputLabel value="#{msg.CreateAttributionLabel_idPersonnel}" />
+                            <p:outputLabel  value="#{restitutionController.attribution.idPersonnel.nomPrenom}" />
+                                                                
+                            <p:commandButton value="..." actionListener="#{restitutionController.listattribution()}"  oncomplete="PF('VehiculeAttrDialog').show()" update=":VehiculeAttrForm:datalist"/>  
+                            <p:graphicImage id="photoPersonnelAttr" value="/resources/images/#{restitutionController.attribution.idPersonnel.photo}" height="190" width="249"/>                                 
+                        </p:panelGrid>   
+                    </p:tab> 
+                </p:accordionPanel> 
+                <p:accordionPanel style="text-align:left; font-weight: bold; font-style: oblique;">  
+                    <p:tab title="Véhicule"> 
+                        <p:panelGrid columns="4">  
+                            <p:outputLabel value="#{msg.CreateAttributionLabel_idVehicule}" for="idVehicule" />
+                            <p:outputLabel id="idVehicule" value="#{restitutionController.attribution.idVehicule.immatriculation} (#{restitutionController.attribution.idVehicule.idModele.nom})"/>
+                                         
+                            
+                            <p:commandButton value="..." actionListener="#{restitutionController.listattribution()}"  oncomplete="PF('VehiculeAttrDialog').show()" update=":VehiculeAttrForm:datalist"/>                
+                            <p:graphicImage id="photoVehiculeAttr" value="/resources/images/#{restitutionController.attribution.idVehicule.photo}" height="190" width="249"/>                        
+                        </p:panelGrid>
+                        <center>
+                            <p:panelGrid columns="2" rendered="#{restitutionController.attribution != null}">                        
+                                <p:outputLabel value="#{msg.CreateRestitutionLabel_dateAffectation}" for="dateRestitution" />
+                                <p:calendar id="dateRestitution" pattern="dd/MM/yyyy" value="#{restitutionController.attribution.datesyst}" placeholder="dd/mm/yyyy" size="15" title="#{msg.EditRestitutionTitle_dateAffectation}"/>
+                            </p:panelGrid>
+                        </center>
+                    </p:tab> 
+                </p:accordionPanel>
+                <p:accordionPanel style="text-align:left; font-weight: bold; font-style: oblique;">  
+                    <p:tab title="Nouveau Personnel">
+                        <p:panelGrid columns="4">   
+                            <p:outputLabel value="#{msg.CreateAttributionLabel_idPersonnel}" for="idPersonnel" />
+                            <p:inputText disabled="true" id="idPersonnel" value="#{restitutionController.nouveauPersonnel.nomPrenom}" 
+                                         title="Nouveau personnel" style="font-weight: bold; font-style: oblique; width: 350px">
+                            </p:inputText>
+                            <p:commandButton id="btnPersonnel" disabled="#{restitutionController.selectedNewPersonnel}" value="..." actionListener="#{restitutionController.removePersonnel()}"  oncomplete="PF('PersonnelAttrDialog').show()" update=":PersonnelAttrForm:datalist"/>  
+                            <p:graphicImage id="photoPersonnelAttr" value="/resources/images/#{restitutionController.nouveauPersonnel.photo}" height="100" width="100"/>    
+                        </p:panelGrid>   
+                    </p:tab> 
+                </p:accordionPanel>
+                <p:commandButton style="float: right;" icon="ui-icon-check" value="#{msg.Valider}" actionListener="#{restitutionController.saveRestitution()}" 
+                                 update=":RestitutionListForm:datalist" oncomplete="handleSubmit(args,'RestitutionCreateDialog');"/>
+                <p:commandButton style="float: right; color: red;" icon="ui-icon-close" value="#{msg.Cancel}" onclick="RestitutionCreateDialog.hide()"/>
+
+            </h:form>
+        </p:dialog>
+
+        <!--********************************Boite de dialogue de vehicule attribues*******************************************-->
+       <p:dialog id="VehiculeAttrDlg" widgetVar="VehiculeAttrDialog" modal="true" resizable="false"  appendTo="@(body)"  style="margin-top: 25% !important; text-align:left; margin-left:8%; margin-right: 8%;font-weight: bold; font-style: oblique;">
+            <h:form id="VehiculeAttrForm">
+                <p:dataTable id="datalist" value="#{restitutionController.listAttribution}" var="item"
+                             selectionMode="single" selection="#{restitutionController.attribution}"
+                             paginator="true"  rowKey="#{item.idAttribution}"  rows="15"
+                             rowIndexVar="index"  emptyMessage="#{msg.Vide}"
+                             rowsPerPageTemplate="10,20,30,40,50"
+                             widgetVar="attributionTable" draggableColumns="true"
+                             resizableColumns="true">
+                    <p:ajax event="rowSelect"   update=":RestitutionCreateForm," listener="#{restitutionController.activeBouton()}" oncomplete="PF('VehiculeAttrDialog').hide()"/>
+                    <p:ajax event="rowUnselect" update=""/>
+                   
+
+                    <f:facet name="header"> 
+                        <h:outputText value="#{msg.ListAttributionTitle}"/>
+                    </f:facet> 
+
+                    <p:column style="width: 5% !important; color: black; background-color: beige;">
+                        <f:facet name="header">
+                            <h:outputText value="#{msg.Numero}"/>
+                        </f:facet>
+                        <h:outputText value="#{index+1}"/>
+                    </p:column>                    
+                    <p:column sortBy="#{item.idPersonnel.nomPrenom}" filterBy="#{item.idPersonnel.nomPrenom}">
+                        <f:facet name="header">
+                            <h:outputText value="#{msg.ListAttributionTitle_idPersonnel}"/>
+                        </f:facet>
+                        <h:outputText value="#{item.idPersonnel.nomPrenom} (CNI :#{item.idPersonnel.cni})"/>
+                    </p:column>
+                    <p:column sortBy="#{item.idVehicule.idModele.nom}" filterBy="#{item.idVehicule.idModele.nom}">
+                        <f:facet name="header">
+                            <h:outputText value="#{msg.ListAttributionTitle_idVehicule}"/>
+                        </f:facet>
+                        <h:outputText value="#{item.idVehicule.idModele.nom} #{item.idVehicule.idModele.idMarque.nom} (Immatriculation :#{item.idVehicule.immatriculation})"/>
+                    </p:column>                    
+                    <p:column>
+                        <f:facet name="header">
+                            <h:outputText value="#{msg.ListAttributionTitle_dateattribution}"/>
+                        </f:facet>
+                        <h:outputText value="#{item.dateattribution}">
+                            <f:convertDateTime pattern="dd/MM/yyyy HH:mm" />
+                        </h:outputText>
+                    </p:column>                    
+                </p:dataTable>
+            </h:form>
+        </p:dialog>
+        
+        <!--********************************Boite de dialogue personnel*******************************************-->
+        <p:dialog id="PersonnelAttrDlg" widgetVar="PersonnelAttrDialog" modal="true" resizable="false"  appendTo="@(body)"  style="margin-top:25% !important; text-align:left; margin-left:8%; margin-right: 8%;font-weight: bold; font-style: oblique;">
+            <h:form id="PersonnelAttrForm">                
+                <p:dataTable id="datalist" value="#{restitutionController.listPersonnel}" var="item"
+                             selectionMode="single" selection="#{restitutionController.nouveauPersonnel}"
+                             paginator="true"
+                             rowKey="#{item.idPersonnel}"
+                             rows="5"
+                             rowsPerPageTemplate="10,20,30,40,50"
+                             rowIndexVar="index"
+                             emptyMessage="#{msg.Vide}"
+                             widgetVar="personnelTable"
+                             draggableColumns="true"
+                             resizableColumns="true"
+                             >
+
+                    <p:ajax event="rowSelect"   update=":RestitutionCreateForm" listener="#{restitutionController.activeBouton()}" oncomplete="PF('PersonnelAttrDialog').hide()"/>
+                    <p:ajax event="rowUnselect" update=""/>
+
+                    <f:facet name="header"> 
+                        <h:outputText value="#{msg.ListPersonnelTitle}"/>
+                    </f:facet> 
+
+                    <p:column style="width: 5% !important; color: black; background-color: beige;">
+                        <f:facet name="header">
+                            <h:outputText value="#{msg.Numero}"/>
+                        </f:facet>
+                        <h:outputText value="#{index+1}"/>
+                    </p:column>
+
+                    <p:column style="width: 20% ;" sortBy="#{item.nomPrenom}" filterBy="#{item.nomPrenom}">
+                        <f:facet name="header">
+                            <h:outputText value="#{msg.ListPersonnelTitle_nomPrenom}"/>
+                        </f:facet>
+                        <h:outputText value="#{item.nomPrenom}"/>
+                    </p:column>
+                    <p:column sortBy="#{item.matricule}" filterBy="#{item.matricule}">
+                        <f:facet name="header">
+                            <h:outputText value="#{msg.ListPersonnelTitle_matricule}"/>
+                        </f:facet>
+                        <h:outputText value="#{item.matricule}"/>
+                    </p:column>
+                    <p:column sortBy="#{item.cni}" filterBy="#{item.cni}">
+                        <f:facet name="header">
+                            <h:outputText value="#{msg.ListPersonnelTitle_cni}"/>
+                        </f:facet>
+                        <h:outputText value="#{item.cni}"/>
+                    </p:column>
+                    <p:column sortBy="#{item.sexe}" filterBy="#{item.sexe}">
+                        <f:facet name="header">
+                            <h:outputText value="#{msg.ListPersonnelTitle_sexe}"/>
+                        </f:facet>
+                        <h:outputText value="#{item.sexe}"/>
+                    </p:column>
+                    <p:column>
+                        <f:facet name="header">
+                            <h:outputText value="#{msg.ListPersonnelTitle_dateNaissance}"/>
+                        </f:facet>
+                        <h:outputText value="#{item.dateNaissance}">
+                            <f:convertDateTime pattern="dd/MM/yyyy" />
+                        </h:outputText>
+                    </p:column>
+                    <p:column sortBy="#{item.lieuNaissance}" filterBy="#{item.lieuNaissance}">
+                        <f:facet name="header">
+                            <h:outputText value="#{msg.ListPersonnelTitle_lieuNaissance}"/>
+                        </f:facet>
+                        <h:outputText value="#{item.lieuNaissance}"/>
+                    </p:column>
+                    <p:column>
+                        <f:facet name="header">
+                            <h:outputText value="#{msg.ListPersonnelTitle_dateRecrutement}"/>
+                        </f:facet>
+                        <h:outputText value="#{item.dateRecrutement}">
+                            <f:convertDateTime pattern="dd/MM/yyyy" />
+                        </h:outputText>
+                    </p:column>                    
+                </p:dataTable>
+            </h:form>
+        </p:dialog>
+        
+   </ui:composition>
+</html>

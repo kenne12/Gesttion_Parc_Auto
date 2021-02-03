@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:p="http://primefaces.org/ui">
+
+    <ui:composition>
+        <p:dialog id="RestitutionImprimerDlg" widgetVar="RestitutionImprimerDialog" modal="true" resizable="true"  width="1000px" height="550px"
+                  appendTo="@(body)" 
+                  header="formulaire d'impression des véhicules restitués"  closeOnEscape="true">
+
+            <h:form  id="RestitutionImprimerForm">
+
+                <object data="#{request.contextPath}/Rapports/Restitution/#{restitutionController.fichier}" width="100%" height="545px" type="application/pdf" title="Liste de véhicules restitués"></object>
+                
+
+            </h:form>
+
+        </p:dialog>
+
+    </ui:composition>
+</html>

@@ -1,0 +1,249 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="CircuitVehicules_subreport" pageWidth="555" pageHeight="802" whenNoDataType="AllSectionsNoDetail" columnWidth="555" leftMargin="0" rightMargin="0" topMargin="0" bottomMargin="0" isIgnorePagination="true" uuid="10e7bebb-593a-46f5-b186-aca550a23710">
+	<property name="ireport.zoom" value="1.0"/>
+	<property name="ireport.x" value="0"/>
+	<property name="ireport.y" value="0"/>
+	<template><![CDATA["E:\\GPA\\Netbeans\\GPAuto\\web\\resources\\report\\styles.jrtx"]]></template>
+	<style name="alternative" mode="Transparent" forecolor="#CCCCCC" backcolor="#CCCCFF">
+		<conditionalStyle>
+			<conditionExpression><![CDATA[$V{REPORT_COUNT}%2 == 0]]></conditionExpression>
+			<style backcolor="#E6DAC3"/>
+		</conditionalStyle>
+	</style>
+	<queryString language="SQL">
+		<![CDATA[SELECT
+     structure."id_structure" AS structure_id_structure,
+     structure."id_statutstructure" AS structure_id_statutstructure,
+     structure."id_adresse" AS structure_id_adresse,
+     structure."id_typestructure" AS structure_id_typestructure,
+     structure."id_arrondissement" AS structure_id_arrondissement,
+     structure."id_district" AS structure_id_district,
+     structure."id_region" AS structure_id_region,
+     structure."nom" AS structure_nom,
+     structure."localite" AS structure_localite,
+     structure."active" AS structure_active,
+     structure."gps_nord" AS structure_gps_nord,
+     structure."gps_sud" AS structure_gps_sud,
+     typesinistre."id_typesinistre" AS typesinistre_id_typesinistre,
+     typesinistre."nom" AS typesinistre_nom,
+     garage."id_garage" AS garage_id_garage,
+     garage."id_adresse" AS garage_id_adresse,
+     garage."nom" AS garage_nom,
+     sinistre."id_sinistre" AS sinistre_id_sinistre,
+     sinistre."id_typesinistre" AS sinistre_id_typesinistre,
+     sinistre."id_garage" AS sinistre_id_garage,
+     sinistre."id_vehicule" AS sinistre_id_vehicule,
+     sinistre."datesinistre" AS sinistre_datesinistre,
+     sinistre."lieusinistre" AS sinistre_lieusinistre,
+     sinistre."montant" AS sinistre_montant,
+     sinistre."immobilisation" AS sinistre_immobilisation,
+     sinistre."datedebut" AS sinistre_datedebut,
+     sinistre."datefin" AS sinistre_datefin,
+     sinistre."commentaire" AS sinistre_commentaire,
+     sinistre."photo" AS sinistre_photo,
+     vehicule."id_vehicule" AS vehicule_id_vehicule,
+     vehicule."id_sourcefinancement" AS vehicule_id_sourcefinancement,
+     vehicule."id_modele" AS vehicule_id_modele,
+     vehicule."id_modeacquisition" AS vehicule_id_modeacquisition,
+     vehicule."id_sourceenergie" AS vehicule_id_sourceenergie,
+     vehicule."id_categorievehicule" AS vehicule_id_categorievehicule,
+     vehicule."immatriculation" AS vehicule_immatriculation,
+     vehicule."numchassis" AS vehicule_numchassis,
+     vehicule."cartegrise" AS vehicule_cartegrise,
+     vehicule."datemiseenservice" AS vehicule_datemiseenservice,
+     vehicule."nbredeplace" AS vehicule_nbredeplace,
+     vehicule."dateacquisition" AS vehicule_dateacquisition,
+     vehicule."numserie" AS vehicule_numserie,
+     vehicule."puissance" AS vehicule_puissance,
+     vehicule."coutachatttc" AS vehicule_coutachatttc,
+     vehicule."description" AS vehicule_description,
+     vehicule."document" AS vehicule_document,
+     vehicule."nbresinistre" AS vehicule_nbresinistre,
+     vehicule."nbrereparation" AS vehicule_nbrereparation,
+     vehicule."nbrerevision" AS vehicule_nbrerevision,
+     vehicule."photo" AS vehicule_photo,
+     vehicule."attribution" AS vehicule_attribution,
+     vehicule."restitution" AS vehicule_restitution,
+     vehicule."etat" AS vehicule_etat,
+     personnel."id_personnel" AS personnel_id_personnel,
+     personnel."id_fonction" AS personnel_id_fonction,
+     personnel."id_adresse" AS personnel_id_adresse,
+     personnel."id_service" AS personnel_id_service,
+     personnel."id_structure" AS personnel_id_structure,
+     personnel."nom_prenom" AS personnel_nom_prenom,
+     personnel."matricule" AS personnel_matricule,
+     personnel."cni" AS personnel_cni,
+     personnel."sexe" AS personnel_sexe,
+     personnel."date_naissance" AS personnel_date_naissance,
+     personnel."lieu_naissance" AS personnel_lieu_naissance,
+     personnel."nationalite" AS personnel_nationalite,
+     personnel."date_recrutement" AS personnel_date_recrutement,
+     personnel."photo" AS personnel_photo,
+     attribution."id_attribution" AS attribution_id_attribution,
+     attribution."id_vehicule" AS attribution_id_vehicule,
+     attribution."id_personnel" AS attribution_id_personnel,
+     attribution."dateattribution" AS attribution_dateattribution,
+     attribution."daterestitution" AS attribution_daterestitution,
+     attribution."datesyst" AS attribution_datesyst
+FROM
+     "public"."garage" garage INNER JOIN "public"."sinistre" sinistre ON garage."id_garage" = sinistre."id_garage"
+     INNER JOIN "public"."typesinistre" typesinistre ON sinistre."id_typesinistre" = typesinistre."id_typesinistre"
+     INNER JOIN "public"."vehicule" vehicule ON sinistre."id_vehicule" = vehicule."id_vehicule"
+     INNER JOIN "public"."attribution" attribution ON vehicule."id_vehicule" = attribution."id_vehicule"
+     INNER JOIN "public"."personnel" personnel ON attribution."id_personnel" = personnel."id_personnel"
+     INNER JOIN "public"."structure" structure ON personnel."id_structure" = structure."id_structure"]]>
+	</queryString>
+	<field name="structure_id_structure" class="java.lang.Integer"/>
+	<field name="structure_id_statutstructure" class="java.lang.Integer"/>
+	<field name="structure_id_adresse" class="java.lang.Integer"/>
+	<field name="structure_id_typestructure" class="java.lang.Integer"/>
+	<field name="structure_id_arrondissement" class="java.lang.Integer"/>
+	<field name="structure_id_district" class="java.lang.Integer"/>
+	<field name="structure_id_region" class="java.lang.Integer"/>
+	<field name="structure_nom" class="java.lang.String"/>
+	<field name="structure_localite" class="java.lang.String"/>
+	<field name="structure_active" class="java.lang.Boolean"/>
+	<field name="structure_gps_nord" class="java.lang.Double"/>
+	<field name="structure_gps_sud" class="java.lang.Double"/>
+	<field name="typesinistre_id_typesinistre" class="java.lang.Integer"/>
+	<field name="typesinistre_nom" class="java.lang.String"/>
+	<field name="garage_id_garage" class="java.lang.Integer"/>
+	<field name="garage_id_adresse" class="java.lang.Integer"/>
+	<field name="garage_nom" class="java.lang.String"/>
+	<field name="sinistre_id_sinistre" class="java.lang.Integer"/>
+	<field name="sinistre_id_typesinistre" class="java.lang.Integer"/>
+	<field name="sinistre_id_garage" class="java.lang.Integer"/>
+	<field name="sinistre_id_vehicule" class="java.lang.Integer"/>
+	<field name="sinistre_datesinistre" class="java.sql.Date"/>
+	<field name="sinistre_lieusinistre" class="java.lang.String"/>
+	<field name="sinistre_montant" class="java.lang.Integer"/>
+	<field name="sinistre_immobilisation" class="java.lang.String"/>
+	<field name="sinistre_datedebut" class="java.sql.Date"/>
+	<field name="sinistre_datefin" class="java.sql.Date"/>
+	<field name="sinistre_commentaire" class="java.lang.String"/>
+	<field name="sinistre_photo" class="java.lang.String"/>
+	<field name="vehicule_id_vehicule" class="java.lang.Integer"/>
+	<field name="vehicule_id_sourcefinancement" class="java.lang.Integer"/>
+	<field name="vehicule_id_modele" class="java.lang.Integer"/>
+	<field name="vehicule_id_modeacquisition" class="java.lang.Integer"/>
+	<field name="vehicule_id_sourceenergie" class="java.lang.Integer"/>
+	<field name="vehicule_id_categorievehicule" class="java.lang.Integer"/>
+	<field name="vehicule_immatriculation" class="java.lang.String"/>
+	<field name="vehicule_numchassis" class="java.lang.String"/>
+	<field name="vehicule_cartegrise" class="java.lang.String"/>
+	<field name="vehicule_datemiseenservice" class="java.sql.Date"/>
+	<field name="vehicule_nbredeplace" class="java.lang.Integer"/>
+	<field name="vehicule_dateacquisition" class="java.sql.Date"/>
+	<field name="vehicule_numserie" class="java.lang.String"/>
+	<field name="vehicule_puissance" class="java.lang.String"/>
+	<field name="vehicule_coutachatttc" class="java.lang.Integer"/>
+	<field name="vehicule_description" class="java.lang.String"/>
+	<field name="vehicule_document" class="java.lang.String"/>
+	<field name="vehicule_nbresinistre" class="java.lang.Integer"/>
+	<field name="vehicule_nbrereparation" class="java.lang.Integer"/>
+	<field name="vehicule_nbrerevision" class="java.lang.Integer"/>
+	<field name="vehicule_photo" class="java.lang.String"/>
+	<field name="vehicule_attribution" class="java.lang.Integer"/>
+	<field name="vehicule_restitution" class="java.lang.Integer"/>
+	<field name="vehicule_etat" class="java.lang.String"/>
+	<field name="personnel_id_personnel" class="java.lang.Integer"/>
+	<field name="personnel_id_fonction" class="java.lang.Integer"/>
+	<field name="personnel_id_adresse" class="java.lang.Integer"/>
+	<field name="personnel_id_service" class="java.lang.Integer"/>
+	<field name="personnel_id_structure" class="java.lang.Integer"/>
+	<field name="personnel_nom_prenom" class="java.lang.String"/>
+	<field name="personnel_matricule" class="java.lang.String"/>
+	<field name="personnel_cni" class="java.lang.String"/>
+	<field name="personnel_sexe" class="java.lang.String"/>
+	<field name="personnel_date_naissance" class="java.sql.Date"/>
+	<field name="personnel_lieu_naissance" class="java.lang.String"/>
+	<field name="personnel_nationalite" class="java.lang.String"/>
+	<field name="personnel_date_recrutement" class="java.sql.Date"/>
+	<field name="personnel_photo" class="java.lang.String"/>
+	<field name="attribution_id_attribution" class="java.lang.Integer"/>
+	<field name="attribution_id_vehicule" class="java.lang.Integer"/>
+	<field name="attribution_id_personnel" class="java.lang.Integer"/>
+	<field name="attribution_dateattribution" class="java.sql.Date"/>
+	<field name="attribution_daterestitution" class="java.sql.Date"/>
+	<field name="attribution_datesyst" class="java.sql.Date"/>
+	<variable name="REPORT_TITLE" class="java.lang.String">
+		<initialValueExpression><![CDATA["Report Title Goes Here"]]></initialValueExpression>
+	</variable>
+	<columnHeader>
+		<band height="23" splitType="Stretch">
+			<frame>
+				<reportElement mode="Opaque" x="-21" y="2" width="595" height="20" backcolor="#993C14" uuid="7bae561d-4ba2-46b4-b2b2-7527e53dfaa2"/>
+				<staticText>
+					<reportElement x="35" y="0" width="127" height="20" forecolor="#FFFFFF" uuid="e7b9d56a-1b10-43e1-bf0b-bd6459edd607"/>
+					<textElement textAlignment="Center"/>
+					<text><![CDATA[Structure]]></text>
+				</staticText>
+				<staticText>
+					<reportElement x="166" y="0" width="100" height="20" forecolor="#FFFFFF" uuid="457c8aba-6437-426f-ab97-4b355b1486f7"/>
+					<textElement textAlignment="Center"/>
+					<text><![CDATA[Type De Sinistre]]></text>
+				</staticText>
+				<staticText>
+					<reportElement x="274" y="0" width="76" height="20" forecolor="#FFFFFF" uuid="c6e3c6a1-a1da-4970-8e41-0e567d4b1b21"/>
+					<textElement textAlignment="Right"/>
+					<text><![CDATA[Date Du Sinistre]]></text>
+				</staticText>
+				<staticText>
+					<reportElement x="354" y="0" width="100" height="20" forecolor="#FFFFFF" uuid="db3def50-21b5-4dd4-a253-91712c35f171"/>
+					<textElement textAlignment="Center"/>
+					<text><![CDATA[Garage]]></text>
+				</staticText>
+				<staticText>
+					<reportElement x="465" y="0" width="43" height="20" forecolor="#FFFFFF" uuid="92882e65-f32b-4e5f-82a5-6ec165c2d64f"/>
+					<textElement textAlignment="Center"/>
+					<text><![CDATA[Debut]]></text>
+				</staticText>
+				<staticText>
+					<reportElement x="522" y="0" width="73" height="20" forecolor="#FFFFFF" uuid="c1b828a9-8001-4549-9ae2-d2f41e19f979"/>
+					<textElement textAlignment="Center"/>
+					<text><![CDATA[Fin]]></text>
+				</staticText>
+			</frame>
+			<line>
+				<reportElement x="-21" y="20" width="595" height="1" uuid="831bd668-7133-406d-b8f0-02df3e96e865"/>
+			</line>
+		</band>
+	</columnHeader>
+	<detail>
+		<band height="24" splitType="Stretch">
+			<frame>
+				<reportElement style="alternative" mode="Opaque" x="-21" y="2" width="595" height="20" forecolor="#000000" backcolor="#FFFFFF" uuid="7bdfeac9-4067-4dd7-ae1b-39766e9118a3"/>
+				<textField>
+					<reportElement x="35" y="0" width="127" height="20" uuid="4cb0f0b8-200a-4dab-a4a9-8e7db384ab9b"/>
+					<textElement textAlignment="Left"/>
+					<textFieldExpression><![CDATA[$F{structure_nom}]]></textFieldExpression>
+				</textField>
+				<textField>
+					<reportElement x="166" y="0" width="100" height="20" uuid="e93add04-8aa9-4d1c-8361-c8f58e89d0b6"/>
+					<textElement textAlignment="Center"/>
+					<textFieldExpression><![CDATA[$F{typesinistre_nom}]]></textFieldExpression>
+				</textField>
+				<textField>
+					<reportElement x="274" y="0" width="76" height="20" uuid="44330764-d28c-4af5-8809-d5d85d4e30b0"/>
+					<textElement textAlignment="Right"/>
+					<textFieldExpression><![CDATA[$F{sinistre_datesinistre}]]></textFieldExpression>
+				</textField>
+				<textField>
+					<reportElement x="354" y="0" width="100" height="20" uuid="2a3cea08-de5b-4d7c-9a55-c4deef874f95"/>
+					<textElement textAlignment="Center"/>
+					<textFieldExpression><![CDATA[$F{garage_nom}]]></textFieldExpression>
+				</textField>
+				<textField>
+					<reportElement x="465" y="0" width="43" height="20" uuid="037c0af9-9976-4b74-8524-67a24d794048"/>
+					<textElement textAlignment="Center"/>
+					<textFieldExpression><![CDATA[$F{sinistre_datedebut}]]></textFieldExpression>
+				</textField>
+				<textField>
+					<reportElement x="522" y="0" width="73" height="20" uuid="ac3dbf7c-efa9-465f-9f79-8daeae66b2e2"/>
+					<textElement textAlignment="Center"/>
+					<textFieldExpression><![CDATA[$F{sinistre_datefin}]]></textFieldExpression>
+				</textField>
+			</frame>
+		</band>
+	</detail>
+</jasperReport>

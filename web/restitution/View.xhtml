@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+    <ui:composition>
+
+        <p:dialog id="RestitutionViewDlg" widgetVar="RestitutionViewDialog" modal="true" resizable="false" appendTo="@(body)" header="#{msg.ViewRestitutionTitle}">
+            <h:form id="RestitutionViewForm">
+                <h:panelGroup id="display">
+                    <center>
+                        <p:panelGrid columns="2" rendered="#{restitutionController.selectedAttribution != null}">
+                        
+                        <h:outputText value="#{msg.ViewRestitutionLabel_datePriseService}"/>
+                        <h:outputText value="#{restitutionController.selectedAttribution.dateattribution}" title="#{msg.ViewRestitutionTitle_datePriseService}">
+                            <f:convertDateTime pattern="MM/dd/yyyy" />
+                        </h:outputText>
+                        <h:outputText value="#{msg.ViewRestitutionLabel_dateAffectation}"/>
+                        <h:outputText value="#{restitutionController.selectedAttribution.daterestitution}" title="#{msg.ViewRestitutionTitle_dateAffectation}">
+                            <f:convertDateTime pattern="MM/dd/yyyy" />
+                        </h:outputText>
+                    </p:panelGrid>
+                   </center>
+                  <p:panelGrid columns="2">
+                        <h:panelGroup>
+                            <h:outputText value="#{msg.ViewAttributionLabel_idPersonnel}: "/>
+                            <h:outputText value="#{restitutionController.selectedAttribution.idPersonnel.nomPrenom}(CNI:#{restitutionController.attribution.idPersonnel.cni})" title="#{msg.ViewAttributionTitle_idPersonnel}"/>                                         
+                        </h:panelGroup>
+                        <h:panelGroup>
+                            <h:outputText value="#{msg.ViewAttributionLabel_idVehicule}: "/>
+                            <h:outputText value="#{restitutionController.selectedAttribution.idVehicule.idModele.nom} #{restitutionController.attribution.idVehicule.idModele.idMarque.nom}(Immatriculation:#{restitutionController.attribution.idVehicule.immatriculation})" title="#{msg.ViewAttributionTitle_idVehicule}"/>                       
+                        </h:panelGroup>
+                      <p:graphicImage id="photoPersonnelAttr" value="/resources/images/#{restitutionController.selectedAttribution.idPersonnel.photo}" height="450" width="500"/> 
+                      <p:graphicImage id="photoVehiculeAttr" value="/resources/images/#{restitutionController.selectedAttribution.idVehicule.photo}" height="450" width="500"/>                        
+                    </p:panelGrid>
+                    <p:commandButton value="#{msg.Close}" onclick="RestitutionViewDialog.hide()"/>
+                </h:panelGroup>
+            </h:form>
+        </p:dialog>
+
+    </ui:composition>
+</html>

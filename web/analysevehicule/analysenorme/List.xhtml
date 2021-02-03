@@ -1,0 +1,117 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+    <ui:composition template="/template.xhtml">
+
+
+        <ui:define name="title">
+            <h:outputText value="#{msg.ListNormeTitle}"></h:outputText>
+        </ui:define>
+
+        <ui:define name="body">
+            <h:form id="AttributionListForm" >
+                <p:messages id="msgErreur" closable="true"/>
+                <p:growl id="growl" showDetail="true"/>
+
+                <br></br>
+
+
+                <center>
+                    <p:panelGrid columns="2">                
+                        <p:outputLabel value="Type de stucture" for="typeStructure" />
+                        <p:selectOneMenu id="typeStructure" value="#{analyseNormeController.typestructure.idTypestructure}" style="font-weight: bold; font-style: oblique; width: 100%" disabled="#{analyseNormeController.disableTypeStructure}">                        
+                            <f:selectItem itemLabel="#{msg.Faire_choix}" itemValue=""/>
+                            <f:selectItems value="#{analyseNormeController.typestructures}" var="item"  itemLabel="#{item.nomFr}" itemValue="#{item.idTypestructure}"/>                                                        
+                            <p:ajax update="typeStructure,categorie,datalist,imprimer,msgErreur" listener="#{analyseNormeController.listeTypeStructure()}"/>  
+                        </p:selectOneMenu>                   
+
+                        <p:outputLabel value="Catégorie de #{msg.Vehicule}" for="categorie" />
+                        <p:selectOneMenu value="#{analyseNormeController.categorievehicule.idCategorievehicule}" id="categorie"  style="font-weight: bold; font-style: oblique; width: 100%">
+                            <f:selectItem itemLabel="#{msg.Faire_choix}" itemValue=""/>
+                            <f:selectItems value="#{analyseNormeController.normes}" var="v" itemLabel="#{v.idCategorievehicule.nom}" itemValue="#{v.idCategorievehicule.idCategorievehicule}"/>                               
+                        </p:selectOneMenu>                        
+                    </p:panelGrid>
+                </center>
+
+                <br></br> 
+
+                <p:dataTable id="datalist" value="#{analyseNormeController.normes}" var="item"
+                             selectionMode="single" selection="#{analyseNormeController.norme}"
+                             paginator="true"
+                             rowKey="#{item.idNorme}"
+                             rows="10"
+                             rowsPerPageTemplate="10,20,30,40,50"
+                             style="margin-top:0% !important; text-align:left; margin-left:5%; margin-right: 5%; font-weight: bold; font-style: oblique;"
+                             rowIndexVar="index"
+                             emptyMessage="#{msg.Vide}"
+                             widgetVar="attributionTable"
+                             draggableColumns="true"
+                             resizableColumns="true">
+
+
+
+
+                    <f:facet name="header"> 
+                        <h:outputText value="#{msg.ListNormeTitle}"/>
+                    </f:facet> 
+
+                    <p:column style="width: 5% !important;">
+                        <f:facet name="header">
+                            <h:outputText value="#{msg.Numero}"/>
+                        </f:facet>
+                        <h:outputText value="#{index+1}"/>
+                    </p:column>                    
+
+                    <p:column >
+                        <f:facet name="header">
+                            <h:outputText value="#{msg.Typestructure}"/>
+                        </f:facet>
+                        <h:outputText value="#{item.idTypestructure.nomFr}"/>
+                    </p:column> 
+
+                    <p:column >
+                        <f:facet name="header">
+                            <h:outputText value="#{msg.Categorie_vehicule}"/>
+                        </f:facet>
+                        <h:outputText value="#{item.idCategorievehicule.nom}"/>
+                    </p:column>
+
+                    <p:column >
+                        <f:facet name="header">
+                            <h:outputText value="minumum"/>
+                        </f:facet>
+                        <h:outputText value="#{item.minimum} "/>
+                    </p:column>
+
+                    <p:column >
+                        <f:facet name="header">
+                            <h:outputText value="maximum"/>
+                        </f:facet>
+                        <h:outputText value="#{item.maximum} "/>
+                    </p:column>  
+
+
+                </p:dataTable>
+
+                <br></br>
+                <center>
+
+                    <p:commandButton id="imprimer" icon="ui-icon-print"  disabled="#{analyseNormeController.imprimer}" 
+                                     value="Analyser et imprimer" update=":NormeImprimerDlg,:NormeImprimerForm"
+                                     actionListener="#{analyseNormeController.imprimerNorme()}"                                    
+                                     oncomplete="PF('NormeImprimerDialog').show()"/>
+                </center> 
+            </h:form>
+
+
+            <ui:include src="Imprimer.xhtml"/>
+
+        </ui:define>
+    </ui:composition>
+
+</html>

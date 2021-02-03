@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+    <ui:composition>
+
+        <p:dialog id="ArrondissementDeleteDlg" widgetVar="ArrondissementDeleteDialog" modal="true" resizable="false" appendTo="@(body)" header="#{msg.DeleteArrondissementTitle}">
+            <h:form id="ArrondissementDeleteForm">       
+                <h:panelGroup rendered="#{arrondissementController.arrondissement != null}">
+                    <center><h:graphicImage  value="/resources/images/cancel.png" style="cursor:pointer;" /></center>
+                    <hr size="3" style="background-color: appworkspace;"/>
+                    <h:outputText value="#{arrondissementController.msg}" style=" font-weight: bold !important; font-style: italic;"/>
+                    <hr size="3" style="background-color: appworkspace;"/>
+                    <p:commandButton style="float: right;" actionListener="#{arrondissementController.deleteArrondissement()}"  
+                                     value="#{msg.Oui}" icon="ui-icon-check" update=":ArrondissementListForm:datalist,:ArrondissementListForm:msgErreur" 
+                                     oncomplete="handleSubmit(args,'ArrondissementDeleteDialog');"/>
+                    <p:commandButton style="float: right; color: red;" value="#{msg.Non}" icon="ui-icon-close" onclick="ArrondissementDeleteDialog.hide()" />
+                </h:panelGroup>
+            </h:form> 
+        </p:dialog>
+
+    </ui:composition>
+</html>

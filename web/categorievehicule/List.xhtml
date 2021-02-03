@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+    <ui:composition template="/template.xhtml">
+
+
+        <ui:define name="title">
+            <h:outputText value="#{msg.ListCategorievehiculeTitle}"></h:outputText>
+        </ui:define>
+
+        <ui:define name="body">
+            <h:form id="CategorievehiculeListForm">
+
+
+                <p:dataTable id="datalist" value="#{categorievehiculeController.listCategorievehicule}" var="item"
+                             selectionMode="single" selection="#{categorievehiculeController.categorievehicule}"
+                             paginator="true"
+                             rowKey="#{item.idCategorievehicule}"
+                             rows="10"
+                             rowsPerPageTemplate="10,20,30,40,50"
+                             style="margin-top:1% !important; text-align:left; margin-left:20%; margin-right: 20%; font-weight: bold; font-style: oblique;"
+                             rowIndexVar="index"
+                             emptyMessage="#{msg.Vide}"
+                             widgetVar="categorieTable"
+                             draggableColumns="true"
+                             resizableColumns="true"
+                             >
+
+                    <p:ajax event="rowSelect"   update=":CategorievehiculeListForm:createButton :CategorievehiculeListForm:viewButton :CategorievehiculeListForm:editButton :CategorievehiculeListForm:deleteButton" listener="#{categorievehiculeController.activeBouton()}"/>
+                    <p:ajax event="rowUnselect" update=":CategorievehiculeListForm:createButton :CategorievehiculeListForm:viewButton :CategorievehiculeListForm:editButton :CategorievehiculeListForm:deleteButton"/>
+                    <p:ajax event="colResize"  listener="#{categorievehiculeController.onResize}" />  
+
+                    <f:facet name="header"> 
+                        <h:outputText value="#{msg.ListCategorievehiculeTitle}"/>
+                        
+                    </f:facet> 
+
+                    <p:column style="width: 10% !important;">
+                        <f:facet name="header">
+                            <h:outputText value="#{msg.Numero}"/>
+                        </f:facet>
+                        <h:outputText value="#{index+1}"/>
+                    </p:column>                        
+
+                    <p:column>
+                        <f:facet name="header">
+                            <h:outputText value="#{msg.ListCategorievehiculeTitle_nom}"/>
+                        </f:facet>
+                        <h:outputText value="#{item.nom}"/>
+                    </p:column>
+
+                </p:dataTable>
+
+                <center>
+                    <p:commandButton id="createButton" icon="ui-icon-plus"   value="#{msg.Create}" actionListener="#{categorievehiculeController.prepareCreate}" update=":CategorievehiculeCreateForm" oncomplete="PF('CategorievehiculeCreateDialog').show()"/>
+                    <p:commandButton id="viewButton"   icon="ui-icon-search" value="#{msg.View}" update=":CategorievehiculeViewForm" oncomplete="PF('CategorievehiculeViewDialog').show()" disabled="#{categorievehiculeController.bouton}"/>
+                    <p:commandButton id="editButton"   icon="ui-icon-pencil" value="#{msg.Edit}" actionListener="#{categorievehiculeController.prepareEdit()}" update=":CategorievehiculeEditForm" oncomplete="PF('CategorievehiculeEditDialog').show()" disabled="#{categorievehiculeController.bouton}"/>
+                    <p:commandButton id="deleteButton" icon="ui-icon-trash"  value="#{msg.Delete}" actionListener="#{categorievehiculeController.prepareDelete()}" update=":CategorievehiculeDeleteForm" oncomplete="PF('CategorievehiculeDeleteDialog').show()" disabled="#{categorievehiculeController.bouton}"/> 
+                </center>
+
+            </h:form>
+
+            <ui:include src="Create.xhtml"/>
+            <ui:include src="Edit.xhtml"/>
+            <ui:include src="View.xhtml"/>
+            <ui:include src="Delete.xhtml"/>
+        </ui:define>
+    </ui:composition>
+
+</html>

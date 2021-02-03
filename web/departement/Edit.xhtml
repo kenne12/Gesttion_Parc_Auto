@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+    <ui:composition>
+
+        <p:dialog id="DepartementEditDlg" widgetVar="DepartementEditDialog" modal="true" resizable="false" appendTo="@(body)" header="#{msg.EditDepartementTitle}">
+            <h:form id="DepartementEditForm">
+                <h:panelGroup id="display" rendered="#{departementController.departement != null}" >
+                    <p:panelGrid columns="2" style="text-align:left; font-weight: bold; font-style: oblique;">
+                        <p:outputLabel value="#{msg.EditDepartementLabel_idRegion}" for="idRegion" />
+                        <p:selectOneMenu id="idRegion" value="#{departementController.departement.idRegion}" style="font-weight: bold; font-style: oblique; width: 100%;" converter="regionConverter">
+                            <f:selectItems value="#{regionController.listRegion}"
+                                           var="r"
+                                           itemLabel="#{r.nom}"
+                                           itemValue="#{r}"/>
+                        </p:selectOneMenu>
+                        <p:outputLabel value="#{msg.EditDepartementLabel_nom}" for="nom" />
+                        <p:inputText id="nom" value="#{departementController.departement.nom}" title="#{msg.EditDepartementTitle_nom}" style="font-weight: bold; font-style: oblique; width: 95%;"/>
+                    </p:panelGrid>
+                    <p:commandButton actionListener="#{departementController.editDepartement()}" style="float: right;" icon="ui-icon-check" value="#{msg.Valider}" update="display,:DepartementListForm:datalist,:DepartementListForm:msgErreur" oncomplete="handleSubmit(args, 'DepartementEditDialog');"/>
+                    <p:commandButton style="float: right; color: red;" icon="ui-icon-close" value="#{msg.Cancel}" onclick="DepartementEditDialog.hide()"/>
+                    
+                </h:panelGroup>
+            </h:form>
+        </p:dialog>
+
+    </ui:composition>
+</html>

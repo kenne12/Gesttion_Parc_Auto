@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+    <ui:composition>
+
+        <p:dialog id="MarqueCreateDlg" widgetVar="MarqueCreateDialog" modal="true" resizable="false" appendTo="@(body)" header="#{msg.CreateMarqueTitle}">
+            <h:form id="MarqueCreateForm">
+                <h:panelGroup id="display">
+                    <p:panelGrid columns="2" rendered="#{marqueController.marque != null}">
+                        <p:outputLabel value="#{msg.CreateMarqueLabel_nom}" for="nom" />
+                        <p:inputText id="nom" value="#{marqueController.marque.nom}" title="#{msg.CreateMarqueTitle_nom}" />
+                    </p:panelGrid>
+                    <p:commandButton actionListener="#{marqueController.saveMarque()}" style="float: right;" icon="ui-icon-check" value="#{msg.Valider}" update="display,:MarqueListForm:datalist" oncomplete="handleSubmit(args,'MarqueCreateDialog');"/>
+                    <p:commandButton style="float: right; color: red;" icon="ui-icon-close" value="#{msg.Cancel}" onclick="MarqueCreateDialog.hide()"/>
+                    
+                </h:panelGroup>
+            </h:form>
+        </p:dialog>
+
+    </ui:composition>
+</html>

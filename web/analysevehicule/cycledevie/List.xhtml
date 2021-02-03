@@ -1,0 +1,128 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+    <ui:composition template="/template.xhtml">
+
+
+        <ui:define name="title">
+            <h:outputText value="#{msg.ListAttributionTitle}"></h:outputText>
+        </ui:define>
+
+        <ui:define name="body">
+            <h:form id="AttributionListForm" >
+                <p:messages id="msgErreur" closable="true"/>
+                <p:growl id="growl" showDetail="true"/>
+
+                <br></br>
+
+                <p:ajaxStatus style="display:block;margin-bottom:2em;height:24px;">
+                    <f:facet name="default">
+                        <h:outputText value="" />
+                    </f:facet>
+
+                    <f:facet name="start">
+                        <p:graphicImage value="/resources/images/ajaxloadingbar.gif" />
+                    </f:facet>
+
+                    <f:facet name="complete">
+                        <h:outputText value="" />
+                    </f:facet>
+                </p:ajaxStatus> 
+
+                <p:ajaxStatus onstart="PF('statusDialog').show()" onsuccess="PF('statusDialog').hide()" />
+
+                <p:dialog widgetVar="statusDialog" modal="true" draggable="false" closable="false" resizable="false" showHeader="false">
+                    <p:graphicImage value="/resources/images/ajaxloadingbar.gif" />
+                </p:dialog>
+
+                <center>
+                    <p:panelGrid columns="2">                                                         
+                        <p:outputLabel value="Véhicules en service" for="vehicule" />
+                        <p:selectOneMenu id="vehicule" value="#{cycleDevieController.vehicule.idVehicule}" style="font-weight: bold; font-style: oblique; width: 200px" filter="true">
+                            <f:selectItem itemLabel="#{msg.Faire_choix}" itemValue=""/>
+                            <f:selectItems value="#{cycleDevieController.vehicules}" var="v" itemLabel="(#{v.immatriculation}) #{v.idModele.nom} #{v.idModele.idMarque.nom}" itemValue="#{v.idVehicule}"/>                               
+                            <p:ajax update="datalist,imprimer" listener="#{cycleDevieController.filterCycleDeVie()}"/>
+                        </p:selectOneMenu>       
+                    </p:panelGrid>
+                </center>
+
+                <br></br> 
+
+                <p:dataTable id="datalist" value="#{cycleDevieController.attributions}" var="item"
+                             selectionMode="single" selection="#{attributionController.attribution}"
+                             paginator="true"
+                             rowKey="#{item.idAttribution}"
+                             rows="10"
+                             rowsPerPageTemplate="10,20,30,40,50"
+                             style="margin-top:0% !important; text-align:left; margin-left:5%; margin-right: 5%; font-weight: bold; font-style: oblique;"
+                             rowIndexVar="index"
+                             emptyMessage="#{msg.Vide}"
+                             widgetVar="attributionTable"
+                             draggableColumns="true"
+                             resizableColumns="true">
+
+                    <f:facet name="header"> 
+                        <h:outputText value="#{msg.ListAttributionTitle}  du véhicule : #{cycleDevieController.vehicule.immatriculation}"/>
+                    </f:facet> 
+
+                    <p:column style="width: 5% !important;">
+                        <f:facet name="header">
+                            <h:outputText value="#{msg.Numero}"/>
+                        </f:facet>
+                        <h:outputText value="#{index+1}"/>
+                    </p:column>                    
+
+                    <p:column >
+                        <f:facet name="header">
+                            <h:outputText value="#{msg.Structure}"/>
+                        </f:facet>
+                        <h:outputText value="#{item.idPersonnel.idStructure.nom}"/>
+                    </p:column> 
+
+                    <p:column sortBy="#{item.idPersonnel.nomPrenom}" filterBy="#{item.idPersonnel.nomPrenom}">
+                        <f:facet name="header">
+                            <h:outputText value="#{msg.ListAttributionTitle_idPersonnel}"/>
+                        </f:facet>
+                        <h:outputText value="#{item.idPersonnel.nomPrenom} (CNI :#{item.idPersonnel.cni})"/>
+                    </p:column>
+
+                    <p:column sortBy="#{item.idVehicule.idModele.nom}" filterBy="#{item.idVehicule.idModele.nom}">
+                        <f:facet name="header">
+                            <h:outputText value="#{msg.ListAttributionTitle_idVehicule}"/>
+                        </f:facet>
+                        <h:outputText value="#{item.idVehicule.idModele.nom} #{item.idVehicule.idModele.idMarque.nom} (Immatriculation :#{item.idVehicule.immatriculation})"/>
+                    </p:column>                    
+
+                    <p:column>
+                        <f:facet name="header">
+                            <h:outputText value="#{msg.ListAttributionTitle_dateattribution}"/>
+                        </f:facet>
+                        <h:outputText value="#{item.dateattribution}">
+                            <f:convertDateTime pattern="dd/MM/yyyy HH:mm" />
+                        </h:outputText>
+                    </p:column>                   
+
+                </p:dataTable>
+
+                <br></br>
+                <center>
+
+                    <p:commandButton id="imprimer" icon="ui-icon-print"  
+                                     value="Imprimer" actionListener="#{cycleDevieController.imprimerCycledevie()}"
+                                     update=":CycleDeVieImprimerForm,:CycleDeVieImprimerDlg" 
+                                     oncomplete="PF('CycleDeVieImprimerDialog').show()" disabled="#{cycleDevieController.imprimer}"/> 
+                </center> 
+            </h:form>
+
+
+            <ui:include src="Imprimer.xhtml"/>
+
+        </ui:define>
+    </ui:composition>
+
+</html>

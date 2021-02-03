@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
+
+    <ui:composition>
+
+        <p:dialog id="AttributionEditDlg" widgetVar="AttributionEditDialog" modal="true" resizable="false" appendTo="@(body)" header="#{msg.EditAttributionTitle}">
+            <h:form id="AttributionEditForm">
+                <h:panelGroup id="display">
+                    <p:panelGrid columns="2" rendered="#{attributionController.attribution != null}">
+                        
+                        
+                        <p:outputLabel value="Personnel" for="personnel"/>
+                        
+                        <p:selectOneMenu id="personnel" value="#{attributionController.personnel}" required="true" requiredMessage="personnel requis" converter="personnelConverter" filter="true">
+                            <f:selectItems value="#{attributionController.listPersonnel}" var="p" itemLabel="#{p.nomPrenom}" itemValue="#{p}"/>                           
+                        </p:selectOneMenu>
+                       
+                        <p:outputLabel value="vehicule" for="vehicule"/> 
+                        
+                        <p:selectOneMenu id="vehicule" value="#{attributionController.vehicule}" required="true" requiredMessage="personnel requis" converter="vehiculeConverter" filter="true" >
+                            <f:selectItems value="#{attributionController.listVehiculeNonSelection}" var="v" itemLabel="#{v.idModele.idMarque.nom} #{v.idModele.nom} (#{v.immatriculation})" itemValue="#{p}"/>                           
+                        </p:selectOneMenu> 
+                       
+                        <p:outputLabel value="#{msg.EditAttributionLabel_dateattribution}" for="dateattribution" />
+                        <p:calendar id="dateattribution" pattern="MM/dd/yyyy" value="#{attributionController.attribution.dateattribution}" title="#{msg.EditAttributionTitle_dateattribution}"  showOn="button"/>
+                        
+                    </p:panelGrid>
+                    <p:commandButton actionListener="#{attributionController.editAttribution()}" value="#{msg.Save}" update="display,:AttributionListForm:datalist" oncomplete="handleSubmit(args, 'AttributionEditDialog');"/>
+                    <p:commandButton value="#{msg.Cancel}" onclick="AttributionEditDialog.hide()"/>
+                </h:panelGroup>
+            </h:form>
+        </p:dialog>
+
+    </ui:composition>
+</html>

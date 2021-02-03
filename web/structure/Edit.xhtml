@@ -1,0 +1,95 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+    <ui:composition>
+
+        <p:dialog id="StructureEditDlg" widgetVar="StructureEditDialog" modal="true" resizable="false" appendTo="@(body)" header="#{msg.EditStructureTitle}">
+            <h:form id="StructureEditForm">
+                <h:panelGroup id="display">
+                    <p:panelGrid columns="2" rendered="#{structureController.selectedStructure != null}">
+
+                        <p:outputLabel value="#{msg.EditStructureLabel_nom}" for="nom" />
+                        <p:inputText id="nom" value="#{structureController.selectedStructure.nom}" title="#{msg.EditStructureTitle_nom}"  required="true"/>
+
+                        <p:outputLabel value="#{msg.EditStructureLabel_localite}" for="localite" />
+                        <p:inputText id="localite" value="#{structureController.selectedStructure.localite}" title="#{msg.EditStructureTitle_localite}" />
+
+                        <p:outputLabel value="#{msg.EditStructureLabel_active}" for="active" />
+                        <p:selectBooleanCheckbox id="active" value="#{structureController.selectedStructure.active}" />
+
+
+                        <p:outputLabel value="#{msg.EditStructureLabel_gpsNord}" for="gpsNord" />                        
+                        <p:inputText id="gpsNord" value="#{structureController.selectedStructure.gpsNord}" title="#{msg.EditStructureTitle_gpsNord}" />
+
+                        <p:outputLabel value="#{msg.EditStructureLabel_gpsSud}" for="gpsSud" />                       
+                        <p:inputText id="gpsSud" value="#{structureController.selectedStructure.gpsSud}" title="#{msg.EditStructureTitle_gpsSud}" />
+
+                        <p:outputLabel value="#{msg.EditAdresseLabel_tel}" for="tel" />
+                        <p:inputText id="tel" value="#{structureController.selectedStructure.idAdresse.tel}" title="#{msg.EditAdresseTitle_tel}" />
+
+                        <p:outputLabel value="#{msg.EditAdresseLabel_email}" for="email" />
+                        <p:inputText id="email" value="#{structureController.selectedStructure.idAdresse.email}" title="#{msg.EditAdresseTitle_email}" />
+                        <p:outputLabel value="#{msg.EditAdresseLabel_bp}" for="bp" />
+                        <p:inputText id="bp" value="#{structureController.selectedStructure.idAdresse.bp}" title="#{msg.EditAdresseTitle_bp}" />
+                        <p:outputLabel value="#{msg.EditAdresseLabel_fax}" for="fax" />
+                        <p:inputText id="fax" value="#{structureController.selectedStructure.idAdresse.fax}" title="#{msg.EditAdresseTitle_fax}" />
+                        <p:outputLabel value="#{msg.EditAdresseLabel_siteweb}" for="siteweb" />
+                        <p:inputText id="siteweb" value="#{structureController.selectedStructure.idAdresse.siteweb}" title="#{msg.EditAdresseTitle_siteweb}" />
+
+                        <p:outputLabel value="#{msg.EditTypestructureLabel_nomFr}" for="idTypeStructure"  />
+                        <p:selectOneMenu id="idTypeStructure" value="#{structureController.typestructure}" converter="typestructureConverter" >
+                            <f:selectItems value="#{structureController.listTypestructure}"
+                                           var="ts"
+                                           itemLabel="#{ts.nomFr}(#{ts.codeFr})"
+                                           itemValue="#{ts}"/>
+                        </p:selectOneMenu>
+
+
+                        <p:outputLabel value="#{msg.EditStructureLabel_idRegion}" for="idRegion" />
+                        <p:selectOneMenu id="idRegion" value="#{structureController.region}" converter="regionConverter">
+
+                            <f:selectItems value="#{structureController.listRegion}"
+                                           var="idRegionItem"
+                                           itemValue="#{idRegionItem}"
+                                           itemLabel="#{idRegionItem.nom}"
+                                           />
+                            <p:ajax update="idDistrict" listener="#{structureController.filtreDistrict()}"/>
+
+                        </p:selectOneMenu> 
+
+
+                        <p:outputLabel value="#{msg.EditStructureLabel_idDistrict}" for="idDistrict" />
+                        <p:selectOneMenu id="idDistrict" value="#{structureController.district}" converter="districtConverter">
+
+                            <f:selectItems value="#{districtController.listDistrict}"
+                                           var="idDistrictItem"
+                                           itemValue="#{idDistrictItem}"
+                                           itemLabel="#{idDistrictItem.nom}"
+                                           />
+
+                        </p:selectOneMenu> 
+
+
+                        <p:outputLabel value="#{msg.EditStructureLabel_idArrondissement}" for="idArrondissement" />
+                        <p:selectOneMenu id="idArrondissement" value="#{structureController.arrondissement}" converter="arrondissementConverter" >
+                            <f:selectItems value="#{structureController.listArrondissement}"
+                                           var="arr"
+                                           itemLabel="#{arr.nom}"
+                                           itemValue="#{arr}"/>
+                        </p:selectOneMenu>
+
+                    </p:panelGrid>
+                    <p:commandButton actionListener="#{structureController.editStructure()}" style="float: right;" icon="ui-icon-check" value="#{msg.Valider}" update="display,:StructureListForm:datalist" oncomplete="handleSubmit(args, 'StructureEditDialog');"/>
+                    <p:commandButton style="float: right; color: red;" icon="ui-icon-close" value="#{msg.Cancel}" onclick="StructureEditDialog.hide()"/>
+
+                </h:panelGroup>
+            </h:form>
+        </p:dialog>
+
+    </ui:composition>
+</html>

@@ -1,0 +1,116 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+    <ui:composition template="/template.xhtml">
+
+
+        <ui:define name="title">
+            <h:outputText value="#{msg.ListDemandeTitle}"></h:outputText>
+        </ui:define>
+
+        <ui:define name="body">
+            <h:form id="DemandeListForm">
+
+                <p:dataTable id="datalist" value="#{demandeController.listDemande}" var="item"
+                             selectionMode="single" selection="#{demandeController.demande}"
+                             paginator="true"
+                             rowKey="#{item.idDemande}"
+                             rows="10"
+                             rowsPerPageTemplate="10,20,30,40,50"
+                             style="margin-top:1% !important; text-align:left; margin-left:2%; margin-right: 2%; font-weight: bold; font-style: oblique; "
+                             rowIndexVar="index"
+                             emptyMessage="#{msg.Vide}"
+                             widgetVar="demandeTable"
+                             draggableColumns="true"
+                             resizableColumns="true"
+                             >
+
+                    <p:ajax event="rowSelect"   update=":DemandeListForm:createButton :DemandeListForm:viewButton :DemandeListForm:editButton :DemandeListForm:deleteButton" listener="#{demandeController.activeBouton()}"/>
+                    <p:ajax event="rowUnselect" update=":DemandeListForm:createButton :DemandeListForm:viewButton :DemandeListForm:editButton :DemandeListForm:deleteButton"/>
+                     
+
+                    <f:facet name="header"> 
+                        <h:outputText value="#{msg.ListDemandeTitle}"/>
+
+                    </f:facet>
+
+                    <p:column sortBy="#{item.idStructure.nom}" filterBy="#{item.idStructure.nom}">
+                        <f:facet name="header">
+                            <h:outputText value="#{msg.ListDemandeTitle_idStructure}"/>
+                        </f:facet>
+                        <h:outputText value="#{item.idStructure.nom}"/>
+                    </p:column>
+
+                    <p:column sortBy="#{item.idModele.nom}" filterBy="#{item.idModele.nom}">
+                        <f:facet name="header">
+                            <h:outputText value="#{msg.ListDemandeTitle_idModele}"/>
+                        </f:facet>
+                        <h:outputText value="#{item.idModele.nom}"/>
+                    </p:column>
+
+                    <p:column sortBy="#{item.idCategorievehicule.nom}" filterBy="#{item.idCategorievehicule.nom}">
+                        <f:facet name="header">
+                            <h:outputText value="#{msg.ListDemandeTitle_idCategorievehicule}"/>
+                        </f:facet>
+                        <h:outputText value="#{item.idCategorievehicule.nom}"/>
+                    </p:column>
+
+                    <p:column sortBy="#{item.intitule}" filterBy="#{item.intitule}">
+                        <f:facet name="header">
+                            <h:outputText value="#{msg.ListDemandeTitle_intitule}"/>
+                        </f:facet>
+                        <h:outputText value="#{item.intitule}"/>
+                    </p:column>
+
+                    <p:column >
+                        <f:facet name="header">
+                            <h:outputText value="#{msg.ListDemandeTitle_anneedemande}"/>
+                        </f:facet>
+                        <h:outputText value="#{item.anneedemande}">
+                            <f:convertDateTime pattern="MM/dd/yyyy" />
+                        </h:outputText>
+                    </p:column >
+                    <p:column sortBy="#{item.qtedemande}" filterBy="#{item.qtedemande}">
+                        <f:facet name="header">
+                            <h:outputText value="#{msg.ListDemandeTitle_qtedemande}"/>
+                        </f:facet>
+                        <h:outputText value="#{item.qtedemande}"/>
+                    </p:column>
+                    <p:column sortBy="#{item.anneeaccord}" filterBy="#{item.anneeaccord}">
+                        <f:facet name="header">
+                            <h:outputText value="#{msg.ListDemandeTitle_anneeaccord}"/>
+                        </f:facet>
+                        <h:outputText value="#{item.anneeaccord}"/>
+                    </p:column>
+                    <p:column sortBy="#{item.qteaccord}" filterBy="#{item.qteaccord}">
+                        <f:facet name="header">
+                            <h:outputText value="#{msg.ListDemandeTitle_qteaccord}"/>
+                        </f:facet>
+                        <h:outputText value="#{item.qteaccord}"/>
+                    </p:column>
+
+
+                </p:dataTable>
+                
+                <center>
+                    <p:commandButton id="createButton" icon="ui-icon-plus"   value="#{msg.Create}" actionListener="#{demandeController.prepareCreate}" update=":DemandeCreateForm" oncomplete="PF('DemandeCreateDialog').show()"/>
+                    <p:commandButton id="viewButton"   icon="ui-icon-search" value="#{msg.View}" update=":DemandeViewForm" oncomplete="PF('DemandeViewDialog').show()" disabled="#{demandeController.bouton}"/>
+                    <p:commandButton id="editButton"   icon="ui-icon-pencil" value="#{msg.Edit}" update=":DemandeEditForm" actionListener="#{demandeController.prepareEdit()}" oncomplete="PF('DemandeEditDialog').show()" disabled="#{demandeController.bouton}"/>
+                    <p:commandButton id="deleteButton" icon="ui-icon-trash"  value="#{msg.Delete}" actionListener="#{demandeController.prepareDelete()}" update="datalist,:DemandeDeleteForm" oncomplete="PF('DemandeDeleteDialog').show()" disabled="#{demandeController.bouton}"/>
+                </center>
+                
+            </h:form>
+
+            <ui:include src="Create.xhtml"/>
+            <ui:include src="Edit.xhtml"/>
+            <ui:include src="View.xhtml"/>
+            <ui:include src="Delete.xhtml"/>
+        </ui:define>
+    </ui:composition>
+
+</html>

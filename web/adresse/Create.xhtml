@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+    <ui:composition>
+
+        <p:dialog id="AdresseCreateDlg" widgetVar="AdresseCreateDialog" modal="true" resizable="false" appendTo="@(body)" header="#{msg.CreateAdresseTitle}">
+            <h:form id="AdresseCreateForm">
+                <h:panelGroup id="display">
+                    <p:panelGrid columns="2" rendered="#{adresseController.adresse != null}">                        
+                    <p:outputLabel value="#{msg.Choix_entite_adresser}" for="etat" />
+                    <p:selectOneMenu id="etat" value="#{adresseController.entiteSelectionne}">
+                        <f:selectItem itemLabel="#{msg.Faire_choix}" itemValue=""/>
+                        <f:selectItem itemLabel="#{msg.CreateAdresseLabel_idPersonnel}" itemValue="#{msg.CreateAdresseLabel_idPersonnel}"/>
+                        <f:selectItem itemLabel="#{msg.CreateAdresseLabel_idGarage}" itemValue="#{msg.CreateAdresseLabel_idGarage}"/>
+                        <f:selectItem itemLabel="#{msg.CreateAdresseLabel_idStructure}" itemValue="#{msg.CreateAdresseLabel_idStructure}"/>
+                        <p:ajax event="change" listener="#{adresseController.activeEntiteSelectionne}" update="display,AdresseCreateForm"/>
+                    </p:selectOneMenu>                   
+                        <p:outputLabel value="#{msg.CreateAdresseLabel_tel}" for="tel" />
+                        <p:inputText id="tel" value="#{adresseController.adresse.tel}" title="#{msg.CreateAdresseTitle_tel}" />
+                        <p:outputLabel value="#{msg.CreateAdresseLabel_email}" for="email" />
+                        <p:inputText id="email" value="#{adresseController.adresse.email}" title="#{msg.CreateAdresseTitle_email}" />
+                        <p:outputLabel value="#{msg.CreateAdresseLabel_bp}" for="bp" />
+                        <p:inputText id="bp" value="#{adresseController.adresse.bp}" title="#{msg.CreateAdresseTitle_bp}" />
+                        <p:outputLabel value="#{msg.CreateAdresseLabel_fax}" for="fax" />
+                        <p:inputText id="fax" value="#{adresseController.adresse.fax}" title="#{msg.CreateAdresseTitle_fax}" />
+                        <p:outputLabel value="#{msg.CreateAdresseLabel_siteweb}" for="siteweb" />
+                        <p:inputText id="siteweb" value="#{adresseController.adresse.siteweb}" title="#{msg.CreateAdresseTitle_siteweb}" />
+                    </p:panelGrid>
+                    <p:commandButton actionListener="#{adresseController.saveAdresse()}" style="float: right;" icon="ui-icon-check" value="#{msg.Valider}" update="display,:AdresseListForm:datalist,:growl" oncomplete="handleSubmit(args,'AdresseCreateDialog');"/>
+                    <p:commandButton style="float: right; color: red;" icon="ui-icon-close" value="#{msg.Cancel}" onclick="AdresseCreateDialog.hide()"/>
+                </h:panelGroup>
+            </h:form>
+        </p:dialog>
+
+    </ui:composition>
+</html>

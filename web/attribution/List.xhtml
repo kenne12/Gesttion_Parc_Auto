@@ -1,0 +1,105 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+    <ui:composition template="/template.xhtml">
+        
+        
+        <ui:define name="title">
+            <h:outputText value="#{msg.ListAttributionTitle}"></h:outputText>
+        </ui:define>
+
+        <ui:define name="body">
+            <h:form id="AttributionListForm" >
+                <p:messages id="msgErreur" closable="true"/>
+                <p:growl id="growl" showDetail="true"/>
+
+                <p:dataTable id="datalist" value="#{attributionController.listAttribution}" var="item"
+                             selectionMode="single" selection="#{attributionController.attribution}"
+                             paginator="true"
+                             rowKey="#{item.idAttribution}"
+                             rows="10"
+                             rowsPerPageTemplate="10,20,30,40,50"
+                             style="margin-top:0% !important; text-align:left; margin-left:5%; margin-right: 5%; font-weight: bold; font-style: oblique;"
+                             rowIndexVar="index"
+                             emptyMessage="#{msg.Vide}"
+                             widgetVar="attributionTable"
+                             draggableColumns="true"
+                             resizableColumns="true">
+
+
+                    <p:ajax event="rowSelect"   update=":AttributionListForm:createButton :AttributionListForm:viewButton :AttributionListForm:editButton :AttributionListForm:deleteButton" listener="#{attributionController.activeBouton()}"/>
+                    <p:ajax event="rowUnselect" update=":AttributionListForm:createButton :AttributionListForm:viewButton :AttributionListForm:editButton :AttributionListForm:deleteButton"/>
+                    <p:ajax event="colResize"  listener="#{attributionController.onResize}" /> 
+
+                    <f:facet name="header"> 
+                        <h:outputText value="#{msg.ListAttributionTitle}"/>
+                    </f:facet> 
+
+                    <p:column style="width: 5% !important;">
+                        <f:facet name="header">
+                            <h:outputText value="#{msg.Numero}"/>
+                        </f:facet>
+                        <h:outputText value="#{index+1}"/>
+                    </p:column>                    
+                    
+                    <p:column sortBy="#{item.idPersonnel.nomPrenom}" filterBy="#{item.idPersonnel.nomPrenom}">
+                        <f:facet name="header">
+                            <h:outputText value="#{msg.ListAttributionTitle_idPersonnel}"/>
+                        </f:facet>
+                        <h:outputText value="#{item.idPersonnel.nomPrenom} (CNI :#{item.idPersonnel.cni})"/>
+                    </p:column>
+                    
+                    <p:column sortBy="#{item.idPersonnel.idStructure.idRegion.idRegion}" filterBy="#{item.idPersonnel.idStructure.idRegion.nom}">
+                        <f:facet name="header">
+                            <h:outputText value="Structure"/>
+                        </f:facet>
+                        <h:outputText value="#{item.idPersonnel.idStructure.idRegion.nom}"/>
+                    </p:column>
+                    
+                    <p:column sortBy="#{item.idPersonnel.idStructure.nom}" filterBy="#{item.idPersonnel.idStructure.nom}">
+                        <f:facet name="header">
+                            <h:outputText value="Structure"/>
+                        </f:facet>
+                        <h:outputText value="#{item.idPersonnel.idStructure.nom}"/>
+                    </p:column>
+                    
+                    <p:column sortBy="#{item.idVehicule.idModele.nom}" filterBy="#{item.idVehicule.idModele.nom}">
+                        <f:facet name="header">
+                            <h:outputText value="#{msg.ListAttributionTitle_idVehicule}"/>
+                        </f:facet>
+                        <h:outputText value="#{item.idVehicule.idModele.nom} #{item.idVehicule.idModele.idMarque.nom} (Immatriculation :#{item.idVehicule.immatriculation})"/>
+                    </p:column>                    
+                    <p:column>
+                        <f:facet name="header">
+                            <h:outputText value="#{msg.ListAttributionTitle_dateattribution}"/>
+                        </f:facet>
+                        <h:outputText value="#{item.dateattribution}">
+                            <f:convertDateTime pattern="dd/MM/yyyy HH:mm" />
+                        </h:outputText>
+                    </p:column>
+
+                </p:dataTable>
+
+                <center>
+                    <p:commandButton id="createButton" icon="ui-icon-plus"   value="#{msg.Create}" actionListener="#{attributionController.prepare()}" update=":AttributionCreateForm" oncomplete="PF('AttributionCreateDialog').show()"/>
+                    <p:commandButton id="viewButton"   icon="ui-icon-search" value="#{msg.View}" actionListener="#{attributionController.prepareDetail()}" update=":AttributionViewForm" oncomplete="PF('AttributionViewDialog').show()" disabled="#{attributionController.bouton}"/>
+                    <p:commandButton id="editButton"   icon="ui-icon-pencil" value="#{msg.Edit}" update=":AttributionEditForm" actionListener="#{attributionController.prepareEdit()}" oncomplete="PF('AttributionEditDialog').show()" disabled="#{attributionController.bouton}"/>
+                    <p:commandButton id="deleteButton" icon="ui-icon-trash"  value="#{msg.Delete}" actionListener="#{attributionController.prepareDelete()}" update="datalist,:AttributionDeleteForm" oncomplete="PF('AttributionDeleteDialog').show()"  disabled="#{attributionController.bouton}"/>
+                </center>
+
+
+            </h:form>
+
+            <ui:include src="Create.xhtml"/>
+            <ui:include src="Edit.xhtml"/>
+            <ui:include src="View.xhtml"/>
+            <ui:include src="Delete.xhtml"/>
+        </ui:define>
+    </ui:composition>
+
+</html>

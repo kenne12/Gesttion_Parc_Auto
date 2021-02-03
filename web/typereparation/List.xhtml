@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+    <ui:composition template="/template.xhtml">
+
+
+        <ui:define name="title">
+            <h:outputText value="#{msg.ListTypereparationTitle}"></h:outputText>
+        </ui:define>
+
+        <ui:define name="body">
+            <h:form id="TypereparationListForm">
+
+                <p:dataTable id="datalist" value="#{typereparationController.listTypereparation}" var="item"
+                             selectionMode="single" selection="#{typereparationController.typereparation}"
+                             paginator="true"
+                             rowKey="#{item.idTypereparation}"
+                             rows="10"
+                             rowsPerPageTemplate="10,20,30,40,50"
+                             style="margin-top:1% !important; text-align:left; margin-left:20%; margin-right: 20%;font-weight: bold; font-style: oblique;"
+                             rowIndexVar="index"
+                             emptyMessage="#{msg.Vide}"
+                             widgetVar="typereparationTable"
+                             draggableColumns="true"
+                             resizableColumns="true"
+                             >
+
+                    <p:ajax event="rowSelect"   update=":TypereparationListForm:createButton :TypereparationListForm:viewButton :TypereparationListForm:editButton :TypereparationListForm:deleteButton" listener="#{typereparationController.activeBouton()}"/>
+                    <p:ajax event="rowUnselect" update=":TypereparationListForm:createButton :TypereparationListForm:viewButton :TypereparationListForm:editButton :TypereparationListForm:deleteButton"/>
+                    <p:ajax event="colResize"  listener="#{typereparationController.onResize}" />  
+
+                    <f:facet name="header"> 
+                        <h:outputText value="#{msg.ListTypereparationTitle}"/>                        
+                    </f:facet> 
+
+                    <p:column style="width: 10% !important;">
+                        <f:facet name="header">
+                            <h:outputText value="#{msg.Numero}"/>
+                        </f:facet>
+                        <h:outputText value="#{index+1}"/>
+                    </p:column>
+
+                    <p:column sortBy="#{item.nom}" filterBy="#{item.nom}">
+                        <f:facet name="header">
+                            <h:outputText value="#{msg.ListTypereparationTitle_nom}"/>
+                        </f:facet>
+                        <h:outputText value="#{item.nom}"/>
+                    </p:column>
+
+
+
+                </p:dataTable>                
+                <center>
+                    <p:commandButton id="createButton" icon="ui-icon-plus"   value="#{msg.Create}" actionListener="#{typereparationController.prepareCreate}" update=":TypereparationCreateForm" oncomplete="PF('TypereparationCreateDialog').show()"/>
+                    <p:commandButton id="viewButton"   icon="ui-icon-search" value="#{msg.View}" update=":TypereparationViewForm" oncomplete="PF('TypereparationViewDialog').show()" disabled="#{typereparationController.bouton}"/>
+                    <p:commandButton id="editButton"   icon="ui-icon-pencil" value="#{msg.Edit}" actionListener="#{typereparationController.prepareEdit()}" update=":TypereparationEditForm" oncomplete="PF('TypereparationEditDialog').show()" disabled="#{typereparationController.bouton}"/>
+                    <p:commandButton id="deleteButton" icon="ui-icon-trash"  value="#{msg.Delete}" actionListener="#{typereparationController.prepareDelete()}" update=":TypereparationDeleteForm" oncomplete="PF('TypereparationDeleteDialog').show()" disabled="#{typereparationController.bouton}"/>
+                </center>
+
+            </h:form>
+
+            <ui:include src="Create.xhtml"/>
+            <ui:include src="Edit.xhtml"/>
+            <ui:include src="View.xhtml"/>
+            <ui:include src="Delete.xhtml"/>
+        </ui:define>
+    </ui:composition>
+
+</html>
